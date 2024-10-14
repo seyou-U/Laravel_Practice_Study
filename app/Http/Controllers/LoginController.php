@@ -33,7 +33,7 @@ class LoginController extends Controller
         ]);
     }
 
-    public function logout(Request $request)
+    public function logout(Request $request): RedirectResponse
     {
         Auth::logout();
         // セッションを再生成し、セッションからのデータを削除する(セッションの無効化)
