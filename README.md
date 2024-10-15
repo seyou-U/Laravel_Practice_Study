@@ -29,5 +29,9 @@
 - PHP version 8.3.9
 - Laravel version 11.27.2
 
+## 環境
+Laravel Sail環境下で開発 (今まではDocker環境下で開発)
+Laravel11使用に伴いメールサーバをMailpitに選定 (今まではMailHogを使用)
+
 #### 備考
 学習用のためコメントアウトが多数ございますがご了承ください
