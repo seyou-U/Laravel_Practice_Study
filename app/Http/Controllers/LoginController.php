@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Foundation\Support\Providers\RouteServiceProvider;
+use App\Class\Complex;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
@@ -12,6 +12,7 @@ class LoginController extends Controller
 {
     public function index(): View
     {
+        app()->make(Complex::class)->setup();
         return view('auth.login');
     }
 
