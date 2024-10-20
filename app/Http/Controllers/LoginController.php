@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Class\Complex;
+use App\Class\Unbinding;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
@@ -12,7 +13,12 @@ class LoginController extends Controller
 {
     public function index(): View
     {
+        // 解決方法について以下の2通りがある (makeメソッドもしくはappヘルパー)
         app()->make(Complex::class)->setup();
+        app(Complex::class)->setup();
+
+        // bindが定義されていないクラスのインスタンス生成とパラメータの受け渡しを確認
+        // dd(app(Unbinding::class, ['name' => 'test']));
         return view('auth.login');
     }
 
