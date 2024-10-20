@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use App\Class\Complex;
+use App\Class\MailSender;
 use App\Listeners\RegisteredListener;
+use App\NotifierInterface;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
@@ -35,5 +37,9 @@ class AppServiceProvider extends ServiceProvider
         );
 
         // 通常はここにバインド処理を記述
+        // インターフェイスのバインド例
+        app()->bind(NotifierInterface::class, function() {
+            return new MailSender();
+        });
     }
 }

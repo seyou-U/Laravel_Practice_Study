@@ -4,10 +4,10 @@ namespace App\Class;
 
 use App\NotifierInterface;
 
-class MailSender implements NotifierInterface
+class PushSender implements NotifierInterface
 {
     public function send(string $to, string $message): void
     {
-        // メール送信ロジックを記述
+        // プッシュ通知ロジックを記述
     }
 }
