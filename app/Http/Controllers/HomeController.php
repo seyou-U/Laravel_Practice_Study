@@ -7,7 +7,9 @@ use App\Class\PushSender;
 use App\NotifierInterface;
 use App\Services\AdminService;
 use App\Services\UserService;
+use Illuminate\Support\Facades\Config;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Facade;
 
 class HomeController extends Controller
 {
@@ -33,6 +35,12 @@ class HomeController extends Controller
         // 異なるインスタンスを要求するクラスについて検証
         app()->make(UserService::class);
         app()->make(AdminService::class);
+
+        // aliasについて、config/app.phpからIlluminate\Support\Facades\Facadeファイルに定義されている
+        // Illuminate\Support\Facades\Configクラスにgetメソッドはないが、
+        // getFacadeAccessorメソッドで取得した文字列をresolveFacadeInstanceメソッドで解決し取得したインスタンスを返却する
+        // その後、__callStaticメソッドの引数であるmethodが実行される(今回はgetメソッド)
+        // dd(Config::get('app.debug'));
 
         return view('home');
     }
