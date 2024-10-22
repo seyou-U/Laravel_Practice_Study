@@ -4,7 +4,7 @@ namespace App\Services;
 
 use App\NotifierInterface;
 
-class UserService
+class AdminService
 {
     protected $notifier;
 
@@ -23,8 +23,8 @@ class UserService
      * メソッドインジェクション / 何らかの手段で送るといった抽象的な役割をインターフェイスで持たせる
      * 引数はNotifierInterfaceを実装したクラスであればどのクラスでも可能
      */
-    public function sendNotification(NotifierInterface $notifier, string $to, string $message): void
-    {
-        $notifier->send($to, $message);
-    }
+    // public function sendNotification(NotifierInterface $notifier, string $to, string $message): void
+    // {
+    //     $notifier->send($to, $message);
+    // }
 }

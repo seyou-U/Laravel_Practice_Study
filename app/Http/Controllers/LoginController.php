@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Class\Complex;
-use App\Services\UserService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
@@ -13,18 +11,6 @@ class LoginController extends Controller
 {
     public function index(): View
     {
-        // 解決方法について以下の2通りがある (makeメソッドもしくはappヘルパー)
-        app()->make(Complex::class)->setup();
-        app(Complex::class)->setup();
-
-        // bindが定義されていないクラスのインスタンス生成とパラメータの受け渡しを確認
-        // dd(app(Unbinding::class, ['name' => 'test']));
-
-        // callメソッドを用いたメソッドインジェクションの確認
-        // callメソッドの第一引数で実行するクラス変数とメソッド、第二引数でメソッドインジェクションで注入する値以外の引数を指定
-        // $service = app(UserService::class);
-        // app()->call([$service, 'sendNotification'], ['to' => 'address', 'message' => 'message']);
-
         return view('auth.login');
     }
 

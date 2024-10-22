@@ -4,7 +4,10 @@ namespace App\Providers;
 
 use App\Class\Complex;
 use App\Class\MailSender;
+use App\Class\PushSender;
 use App\Listeners\RegisteredListener;
+use App\Services\AdminService;
+use App\Services\UserService;
 use App\NotifierInterface;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\Facades\Event;
@@ -37,9 +40,24 @@ class AppServiceProvider extends ServiceProvider
         );
 
         // 通常はここにバインド処理を記述
-        // インターフェイスのバインド例
+        // インターフェイス通常のバインド例
         app()->bind(NotifierInterface::class, function() {
             return new MailSender();
         });
+
+        // 呼び出すクラスに応じて異なるインスタンスを取得することができる
+        // 下記では、UserServiceクラスでNotifierInterfaceクラスインスタンスを生成した場合、PushSenderクラスのインスタンスが返却される
+        app()->when(UserService::class)
+            ->needs(NotifierInterface::class)
+            ->give(function() {
+                return new PushSender();
+            });
+
+        // AdminクラスでNotifierInterfaceクラスインスタンスを生成した場合、MailSenderクラスのインスタンスが返却される
+        app()->when(AdminService::class)
+            ->needs(NotifierInterface::class)
+            ->give(function() {
+                return new MailSender();
+            });
     }
 }
