@@ -12,11 +12,12 @@ class RegisteredListener
 {
     private $mailer;
     private $eloquent;
+
     /**
      * コンストラクタ
      *  @param Mailer $mailer
      *  @param User $eloquent
-    //  *  @return void
+     *  @return void
      */
     public function __construct(Mailer $mailer, User $eloquent)
     {

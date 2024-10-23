@@ -9,7 +9,6 @@ use App\Services\AdminService;
 use App\Services\UserService;
 use Illuminate\Support\Facades\Config;
 use Illuminate\View\View;
-use Illuminate\Support\Facades\Facade;
 
 class HomeController extends Controller
 {

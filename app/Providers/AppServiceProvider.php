@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\BlowfishEncrypter;
 use App\Class\Complex;
 use App\Class\MailSender;
 use App\Class\PushSender;
@@ -10,9 +11,11 @@ use App\Services\AdminService;
 use App\Services\UserService;
 use App\NotifierInterface;
 use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Encryption\MissingAppKeyException;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 use Monolog\Logger;
+use Illuminate\Support\Str;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -28,6 +31,14 @@ class AppServiceProvider extends ServiceProvider
             $complex = new Complex($logger, $logger->getName());
             return $complex;
         });
+
+        // 作成したコントラクトのバインドを定義する
+        $this->app->singleton('encrypter', function (Application $app) {
+                // config/app.phpからアプリケーションの情報を取得する
+                $config = $app->make('config')->get('app');
+                return new BlowfishEncrypter($this->parseKey($config));
+            }
+        );
     }
 
     /**
@@ -59,5 +70,29 @@ class AppServiceProvider extends ServiceProvider
             ->give(function() {
                 return new MailSender();
             });
+    }
+
+    protected function parseKey(array $config)
+    {
+        // keyの値の文字列が「base64:」から始まっていることをチェックする
+        if (Str::startsWith($key = $this->key($config), $prefix = 'base64:')) {
+            // afterメソッドを用いることでbase64から後に続く文字列を取得し、デコードする
+            $key = base64_decode(Str::after($key, $prefix));
+        }
+
+        return $key;
+    }
+
+    protected function key(array $config)
+    {
+        // tapヘルパでは、クロージャーを渡していることから主に第一引数を返却している
+        return tap(
+            $config['key'],
+            function ($key) {
+                if (empty($key)) {
+                    throw new MissingAppKeyException();
+                }
+            }
+        );
     }
 }
