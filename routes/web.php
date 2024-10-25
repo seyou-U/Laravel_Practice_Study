@@ -31,7 +31,7 @@ Route::resource('users', UserController::class)->only([
 ]);
 
 // ADRパターンのルーティング定義
-Route::get('users', UserIndexActions::class);
+// Route::get('users', UserIndexActions::class);
 
 
 
