@@ -33,12 +33,12 @@ class AppServiceProvider extends ServiceProvider
         });
 
         // 作成したコントラクトのバインドを定義する
-        $this->app->singleton('encrypter', function (Application $app) {
-                // config/app.phpからアプリケーションの情報を取得する
-                $config = $app->make('config')->get('app');
-                return new BlowfishEncrypter($this->parseKey($config));
-            }
-        );
+        // $this->app->singleton('encrypter', function (Application $app) {
+        //         // config/app.phpからアプリケーションの情報を取得する
+        //         $config = $app->make('config')->get('app');
+        //         return new BlowfishEncrypter($this->parseKey($config));
+        //     }
+        // );
     }
 
     /**
