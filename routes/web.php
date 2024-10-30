@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Actions\JsonAction;
+use App\Http\Actions\JsonpAction;
+use App\Http\Actions\StreamAction;
+use App\Http\Actions\TextAction;
 use App\Http\Actions\UserIndexActions;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LoginController;
@@ -31,8 +35,11 @@ Route::resource('users', UserController::class)->only([
 ]);
 
 // ADRパターンのルーティング定義
-// Route::get('users', UserIndexActions::class);
-
+// Route::get('users', UserIndexAction::class);
+Route::get('text', TextAction::class);
+Route::get('json', JsonAction::class);
+Route::get('jsonp', JsonpAction::class);
+Route::get('stream', StreamAction::class);
 
 
 //  コントローラーのクラスのみを指定した場合、AddTaskActionの__invokeメソッドを実行する

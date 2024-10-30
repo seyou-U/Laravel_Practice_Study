@@ -11,7 +11,7 @@ use App\Services\UserService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-final class UserIndexActions extends Controller
+final class UserIndexAction extends Controller
 {
     private $domain;
     private $userResponder;
