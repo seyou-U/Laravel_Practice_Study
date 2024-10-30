@@ -7,6 +7,7 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Request as FacadesRequest;
+use Illuminate\Support\Facades\Validator;
 
 class RegisterController extends Controller
 {
@@ -19,25 +20,51 @@ class RegisterController extends Controller
     public function store(Request $request)
     {
         // [memo] confirmedは別のフィールドと一致しているかどうかのチェック
-        $request->validate([
-            'name' => 'required|string|max:255',
+        // nameに対し、「ascii_alpha」というカスタムルールを追加
+        $rule = [
+            'name' => 'required|string|max:255|ascii_alpha',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|confirmed|min:8',
-        ]);
+        ];
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
+        $inputs = $request->all();
+
+        // バリデーションルールに「ascii_alpha」を追加
+        Validator::extend('ascii_alpha', function($attribute, $value, $parameter) {
+            // 半角アルファベットならtrue(バリデーションOK)
+            return preg_match('/^[a-zA-Z]+$/', $value);
+        });
+
+        $validator = Validator::make($inputs, $rule);
+        // 特定の条件のみバリデーションを追加する場合、sometimesメソッドを用いる
+        // 第三引数のクロージャがtrueの場合、第一引数の入力項目に対し第二引数のルールを適応する
+        $validator->sometimes(
+            'age',
+            'integer|min:18',
+            function ($inputs) {
+                return $inputs->mailmagazine === 'allow';
+            }
+        );
+
+        if ($validator->fails()) {
+            // バリデーションエラーの場合の処理を記述
+            return redirect('create');
+        }
+
+
+        // $user = User::create([
+        //     'name' => $request->name,
+        //     'email' => $request->email,
+        //     'password' => Hash::make($request->password),
+        // ]);
 
 
         // リクエストの内容をファザードで記述する方法
-        // $user = User::create([
-        //     'name' => FacadesRequest::get('name'),
-        //     'email' => FacadesRequest::get('email'),
-        //     'password' => Hash::make($request->password),
-        // ]);
+        $user = User::create([
+            'name' => FacadesRequest::get('name'),
+            'email' => FacadesRequest::get('email'),
+            'password' => Hash::make($request->password),
+        ]);
 
         // 特定の入力値のみを取得する場合は
         // $inputs = FacadesRequest::only(['name', 'age']);
