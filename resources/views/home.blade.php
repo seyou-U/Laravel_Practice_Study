@@ -11,7 +11,7 @@
         <p><a href="{{ route('logout')}}">ログアウト</a></p>
     @else
         ゲストさん</p>
-        <p><a href="{{ route('login') }}">ログイン</a></br><a href="{{ route('register') }}">会員登録</a></p>
+        <p><a href="{{ route('login') }}">ログイン</a></br><a href="{{ route('create') }}">会員登録</a></p>
     @endif
 </body>
 </html>

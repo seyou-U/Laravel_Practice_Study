@@ -5,6 +5,13 @@
     <title>ユーザー登録フォーム</title>
 </head>
 <body>
+    <ul>
+        @if (count($errors) > 0)
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        @endif
+    </ul>
     <form name="registform" action="/register" method="post" id="registform">
     @csrf
         <dl>
