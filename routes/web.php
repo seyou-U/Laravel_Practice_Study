@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Actions\ArticlepayloadAction;
 use App\Http\Actions\JsonAction;
 use App\Http\Actions\JsonpAction;
 use App\Http\Actions\StreamAction;
@@ -40,6 +41,9 @@ Route::get('text', TextAction::class);
 Route::get('json', JsonAction::class);
 Route::get('jsonp', JsonpAction::class);
 Route::get('stream', StreamAction::class);
+
+// HALを適応したJSONを返却する
+Route::get('/payload', ArticlepayloadAction::class);
 
 
 //  コントローラーのクラスのみを指定した場合、AddTaskActionの__invokeメソッドを実行する
