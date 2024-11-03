@@ -4,10 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Class\Complex;
 use App\Class\PushSender;
+use App\Models\Author;
 use App\NotifierInterface;
 use App\Services\AdminService;
 use App\Services\UserService;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Request;
 use Illuminate\View\View;
 
 class HomeController extends Controller
@@ -41,6 +44,29 @@ class HomeController extends Controller
         // その後、__callStaticメソッドの引数であるmethodが実行される(今回はgetメソッド)
         // dd(Config::get('app.debug'));
 
+        // 自作したアクセサの動作確認用
+        // $authors = Author::all();
+        // $authors->each(function ($author){
+        //     echo $author->kana;
+        // });
+
         return view('home');
+    }
+
+    public function store(Request $request): RedirectResponse
+    {
+        // 自作したミューテータの動作確認
+        // Author::create([
+        //     'name' => 'テスト',
+        //     'kana' => 'ﾃｽﾄ',
+        // ]);
+
+        // データがない場合のみ登録する (firstOrCreateメソッド)
+        Author::firstOrCreate([
+            'name' => '著者A',
+            'kana' => 'ﾃｽﾄ',
+        ]);
+
+        return redirect('home');
     }
 }
