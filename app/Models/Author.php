@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Author extends Model
@@ -18,6 +19,11 @@ class Author extends Model
 
     // 自動的にタイムスタンプの記録する設定をオフにすることができる
     // protected $timestamps = false;
+
+    public function books(): HasMany
+    {
+        return $this->hasMany(Book::class);
+    }
 
     // $fillableで編集などが可能なカラム。$guardedで編集などが不可能なカラムを選択する
     // しかし、DBが冗長になるにつれfillableは追加しないといけないことを考慮すると、fillableよりもguardedを指定する方が良い

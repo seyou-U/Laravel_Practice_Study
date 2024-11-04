@@ -10,6 +10,7 @@ use App\Services\AdminService;
 use App\Services\UserService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Request;
 use Illuminate\View\View;
 
@@ -49,6 +50,19 @@ class HomeController extends Controller
         // $authors->each(function ($author){
         //     echo $author->kana;
         // });
+
+        // toSqlメソッドを用いることで発酵されるSQLについて確認することができる(実行前のSQLを取得することができる)
+        // $sql = Author::where('name', '著者A')->toSql();
+
+        // 実行されたSQLを確認する (この方法ではクエリの処理にかかった時間も確認することができることからパフォーマンスを向上させたい場合にも有効)
+        // SQLの保存を有効化する
+        DB::enableQueryLog();
+
+        $authors = Author::find([1, 3, 5]);
+        // クエリを取得する
+        $queries = DB::getQueryLog();
+        // SQL保存の無効化
+        DB::disableQueryLog();
 
         return view('home');
     }
