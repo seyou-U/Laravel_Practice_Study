@@ -9,6 +9,7 @@
         "askdkc/breezejp": "^1.8",
         "barryvdh/laravel-debugbar": "^3.14",
         "laravel/framework": "^11.9",
+        "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",
         "phpseclib/phpseclib": "~3.0"
     },
