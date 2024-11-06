@@ -3,19 +3,26 @@
 namespace App\Services;
 
 use App\DataProvider\Eloquent\Publisher;
+use App\Interfaces\PublisherRepositoryInterface;
 
 class PublishService
 {
+    private $publisher;
+
+    public function __construct(PublisherRepositoryInterface $publisher)
+    {
+        $this->publisher = $publisher;
+    }
+
     /**
      * 引数で指定された名前と同じ出版名あるか確認
      */
     public function exists(string $name): Bool
     {
-        $count = Publisher::whereName($name)->count();
-        if ($count > 0) {
-            return true;
+        if (empty($this->publisher->findByName($name))) {
+            return false;
         }
-        return false;
+        return true;
     }
 
     /**
@@ -23,10 +30,6 @@ class PublishService
      */
     public function store(string $name, string $address): Int
     {
-        $publisher = Publisher::create([
-            'name' => $name,
-            'address' => $address,
-        ]);
-        return $publisher->id;
+        return $this->publisher->store(app()->make(Publisher::class, ['id' => null, 'name' => $name, 'address' => $address]));
     }
 }
