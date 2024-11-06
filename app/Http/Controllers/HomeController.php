@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Class\Complex;
 use App\Class\PushSender;
+use App\DataAccess\BookDataAccessObject;
 use App\Models\Author;
 use App\NotifierInterface;
 use App\Services\AdminService;
 use App\Services\UserService;
+use Illuminate\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
@@ -16,6 +18,13 @@ use Illuminate\View\View;
 
 class HomeController extends Controller
 {
+    private $bookDataAccessObject;
+
+    public function __construct()
+    {
+        $this->bookDataAccessObject = app()->make(BookDataAccessObject::class);
+    }
+
     public function index(): View
     {
         // 名前解決方法について以下の2通りがある (makeメソッドもしくはappヘルパー)
@@ -56,13 +65,27 @@ class HomeController extends Controller
 
         // 実行されたSQLを確認する (この方法ではクエリの処理にかかった時間も確認することができることからパフォーマンスを向上させたい場合にも有効)
         // SQLの保存を有効化する
-        DB::enableQueryLog();
-
-        $authors = Author::find([1, 3, 5]);
+        // DB::enableQueryLog();
+        // $authors = Author::find([1, 3, 5]);
         // クエリを取得する
-        $queries = DB::getQueryLog();
+        // $queries = DB::getQueryLog();
         // SQL保存の無効化
-        DB::disableQueryLog();
+        // DB::disableQueryLog();
+
+        // クエリビルダ(メソッドチェーンを用いてSQLを組み立て発酵する仕組み)について
+        // DBファザードを利用したクエリビルダの発酵
+        $query = DB::table('books');
+
+        // コネクションオブジェクトから取得する場合 (コードが冗長になるため使用しない)
+        // 1. サービスコンテナからDatabaseManagerクラスのインスタンスを取得する
+        $db = Application::getInstance()->make('db');
+        // 2. 上記インスタンスからConnectionクラスのインスタンスを取得する
+        $connection = $db->connection();
+        // 3. 上記インスタンスからクエリビルダを取得する
+        $query = $connection->table('book');
+
+        $result = $this->bookDataAccessObject->dataExtractionUsingSQL();
+        $pdoResult = $this->bookDataAccessObject->dataExtractionUsingPdo();
 
         return view('home');
     }

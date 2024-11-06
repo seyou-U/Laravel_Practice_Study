@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->integer('book_id');
             $table->string('isbn', 100);
-            $table->date('published_data');
+            $table->date('published_date');
             $table->integer('price');
             $table->timestamps();
         });
