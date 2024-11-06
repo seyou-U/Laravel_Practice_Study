@@ -9,7 +9,7 @@ use App\Class\PushSender;
 use App\Listeners\RegisteredListener;
 use App\Services\AdminService;
 use App\Services\UserService;
-use App\NotifierInterface;
+use App\Interfaces\NotifierInterface;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Encryption\MissingAppKeyException;
 use Illuminate\Support\Facades\Event;

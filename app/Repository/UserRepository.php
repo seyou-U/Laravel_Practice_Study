@@ -3,8 +3,8 @@
 namespace App\Repository;
 
 use App\Models\User;
-use App\NotifierInterface;
-use App\UserRepositoryInterface;
+use App\Interfaces\NotifierInterface;
+use App\Interfaces\UserRepositoryInterface;
 
 class UserRepository implements UserRepositoryInterface
 {

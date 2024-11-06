@@ -6,7 +6,7 @@ use App\Class\Complex;
 use App\Class\PushSender;
 use App\DataAccess\BookDataAccessObject;
 use App\Models\Author;
-use App\NotifierInterface;
+use App\Interfaces\NotifierInterface;
 use App\Services\AdminService;
 use App\Services\UserService;
 use Illuminate\Foundation\Application;
