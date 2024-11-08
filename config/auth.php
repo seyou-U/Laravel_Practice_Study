@@ -64,7 +64,7 @@ return [
     // 独自の認証処理を作成した場合、指定する
     'providers' => [
         'users' => [
-            'driver' => 'eloquent',
+            'driver' => 'cache_eloquent',
             'model' => env('AUTH_MODEL', App\Models\User::class),
         ],
 
