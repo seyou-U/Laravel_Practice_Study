@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\NotifierInterface;
+use App\Interfaces\NotifierInterface;
 
 class UserService
 {

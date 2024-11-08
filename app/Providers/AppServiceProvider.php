@@ -9,7 +9,9 @@ use App\Class\PushSender;
 use App\Listeners\RegisteredListener;
 use App\Services\AdminService;
 use App\Services\UserService;
-use App\NotifierInterface;
+use App\Interfaces\NotifierInterface;
+use App\Interfaces\PublisherRepositoryInterface;
+use App\Repository\PublisherRepository;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Encryption\MissingAppKeyException;
 use Illuminate\Support\Facades\Event;
@@ -31,6 +33,12 @@ class AppServiceProvider extends ServiceProvider
             $complex = new Complex($logger, $logger->getName());
             return $complex;
         });
+
+        // インターフェイスと実装の結合
+        $this->app->bind(
+            PublisherRepositoryInterface::class,
+            PublisherRepository::class
+        );
 
         // 作成したコントラクトのバインドを定義する
         // $this->app->singleton('encrypter', function (Application $app) {

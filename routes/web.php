@@ -12,6 +12,7 @@ use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\HeaderDumper;
 use Illuminate\Support\Facades\Route;
+use Tests\Feature\HomeTest;
 
 // クロージャーを実行する書き方
 Route::get('/', function () {
@@ -19,6 +20,7 @@ Route::get('/', function () {
 });
 
 Route::get('/home', [HomeController::class, 'index'])->middleware(HeaderDumper::class)->name('headerDumper');
+Route::post('try', [HomeController::class, 'store'])->name('try');
 
 Route::middleware('guest')->group(function () {
     Route::get('/login', [LoginController::class, 'index'])->name('login');

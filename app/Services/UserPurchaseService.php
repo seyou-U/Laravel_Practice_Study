@@ -4,7 +4,7 @@ namespace App\Services;
 
 use App\Models\Purchase;
 use App\Models\User;
-use App\UserRepositoryInterface;
+use App\Interfaces\UserRepositoryInterface;
 
 class UserPurchaseService
 {

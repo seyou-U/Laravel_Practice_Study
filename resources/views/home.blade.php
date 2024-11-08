@@ -13,5 +13,9 @@
         ゲストさん</p>
         <p><a href="{{ route('login') }}">ログイン</a></br><a href="{{ route('create') }}">会員登録</a></p>
     @endif
+    <form method="post" action="{{ route('try') }}">
+        @csrf
+        <input type="submit" value="storeアクションの動作確認ボタン">
+    </form>
 </body>
 </html>

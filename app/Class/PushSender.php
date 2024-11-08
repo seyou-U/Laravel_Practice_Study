@@ -2,7 +2,7 @@
 
 namespace App\Class;
 
-use App\NotifierInterface;
+use App\Interfaces\NotifierInterface;
 
 class PushSender implements NotifierInterface
 {
