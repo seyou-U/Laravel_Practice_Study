@@ -37,7 +37,9 @@ return [
 
     'guards' => [
         'web' => [
+            // driver : ログイン認証情報の管理方法について指定する.主に、sessionやtokenなどがある。
             'driver' => 'session',
+            // provider : 認証情報のアクセス方法を指定する。
             'provider' => 'users',
         ],
     ],
@@ -59,6 +61,7 @@ return [
     |
     */
 
+    // 独自の認証処理を作成した場合、指定する
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
