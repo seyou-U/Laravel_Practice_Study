@@ -23,9 +23,15 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         // seederクラスはcallメソッドを用いて呼び出す
-        // $this->call(AuthorsTableSeeder::class);
+        $this->call(AuthorsTableSeeder::class);
 
         // Factoryクラスはcreateメソッドを用いることで作成することができる
         Publisher::factory(50)->create();
+
+        $this->call(
+            [
+                UserSeeder::class,
+            ]
+        );
     }
 }
