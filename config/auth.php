@@ -42,6 +42,13 @@ return [
             // provider : 認証情報のアクセス方法を指定する。
             'provider' => 'users',
         ],
+        'api' => [
+            // driver : ログイン認証情報の管理方法について指定する.主に、sessionやtokenなどがある。
+            'driver' => 'token',
+            // provider : 認証情報のアクセス方法を指定する。
+            'provider' => 'user_token',
+            'hash' => false,
+        ],
     ],
 
     /*
@@ -66,6 +73,10 @@ return [
         'users' => [
             'driver' => 'cache_eloquent',
             'model' => env('AUTH_MODEL', App\Models\User::class),
+        ],
+
+        'user_token' => [
+            'driver' => 'user_token',
         ],
 
         // 'users' => [
