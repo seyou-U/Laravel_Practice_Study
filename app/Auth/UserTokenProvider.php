@@ -1,4 +1,3 @@
-
 <?php
 
 namespace App\Auth;
@@ -34,6 +33,7 @@ final class UserTokenProvider implements UserProvider
 
     }
 
+    // ユーザー認証の際に最終的に通るメソッド
     public function retrieveByCredentials(array $credentials)
     {
         if (!isset($credentials['api_token'])) {

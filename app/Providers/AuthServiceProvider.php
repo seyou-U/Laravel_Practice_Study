@@ -28,17 +28,17 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         // 第1引数にprovider名、第2引数に実装したメソッドのインスタンスを返却するコールバックを指定する
-        // $this->app->make('auth')->provider(
-        //     'cache_eloquent',
-        //     function (Application $app, array $config) {
-        //         // 第1引数にアプリケーションのインスタンス、第2引数にconfigの設定値を指定する
-        //         return new CacheUserProvider(
-        //             $app->make('hash'),
-        //             $config['model'],
-        //             $app->make('cache')->driver()
-        //         );
-        //     }
-        // );
+        $this->app->make('auth')->provider(
+            'cache_eloquent',
+            function (Application $app, array $config) {
+                // 第1引数にアプリケーションのインスタンス、第2引数にconfigの設定値を指定する
+                return new CacheUserProvider(
+                    $app->make('hash'),
+                    $config['model'],
+                    $app->make('cache')->driver()
+                );
+            }
+        );
 
         // APIトークン認証
         // 認証ドライバ名user_token
