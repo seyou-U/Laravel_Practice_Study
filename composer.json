@@ -10,6 +10,7 @@
         "barryvdh/laravel-debugbar": "^3.14",
         "laravel/framework": "^11.9",
         "laravel/sanctum": "^4.0",
+        "laravel/socialite": "^5.16",
         "laravel/tinker": "^2.9",
         "phpseclib/phpseclib": "~3.0",
         "tymon/jwt-auth": "^2.1"
