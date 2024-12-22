@@ -43,11 +43,14 @@ return [
             'provider' => 'users',
         ],
         'api' => [
-            // driver : ログイン認証情報の管理方法について指定する.主に、sessionやtokenなどがある。
             'driver' => 'token',
-            // provider : 認証情報のアクセス方法を指定する。
             'provider' => 'user_token',
             'hash' => false,
+        ],
+        'jwt' => [
+            // jwtドライバの追加
+            'driver' => 'jwt',
+            'provider' => 'users',
         ],
     ],
 

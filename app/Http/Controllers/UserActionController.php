@@ -21,7 +21,7 @@ class UserActionController extends Controller
         // 認証したユーザー情報へのアクセス
         $user = $this->authManager->guard('api')->user();
 
-        return new JsonResponse([
+        return response()->json([
             'id' => $user->getAuthIdentifier(),
             'name' => $user->getName(),
         ]);
