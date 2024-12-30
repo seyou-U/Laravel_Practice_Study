@@ -41,4 +41,9 @@ return [
         'redirect' => 'http://localhpst/register/callback',
     ],
 
+    'amazon' => [
+        'client_id' => env('AMAZON_CLIENT_ID'),
+        'client_secret' => env('AMAZON_CLIENT_SECRET'),
+        'redirect' => 'http://localhpst/register/callback',
+    ],
 ];

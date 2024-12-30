@@ -13,5 +13,8 @@ final class RegisterActionController extends Controller
     {
         // driverメソッドで外部サービスを指定する
         return $factory->driver('github')->redirect();
+
+        // Amazonドライバを利用する場合
+        // return $factory->driver('amazon')->redirect();
     }
 }
