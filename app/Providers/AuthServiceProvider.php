@@ -6,7 +6,9 @@ use App\Auth\CacheUserProvider;
 use App\Auth\UserTokenProvider;
 use App\DataProvider\UserToken;
 use App\Gate\UserAccess;
+use App\Models\Content;
 use App\Models\User;
+use App\Policies\ContentPolicy;
 use Illuminate\Contracts\Auth\Access\Gate;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
@@ -14,6 +16,10 @@ use Psr\Log\LoggerInterface;
 
 class AuthServiceProvider extends ServiceProvider
 {
+    protected $policies = [
+        Content::class => ContentPolicy::class,
+    ];
+
     /**
      * Register services.
      */
