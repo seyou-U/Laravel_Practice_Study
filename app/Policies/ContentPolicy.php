@@ -5,6 +5,8 @@ namespace App\Policies;
 use App\Models\Content;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
+use Illuminate\Contracts\Auth\Authenticatable;
+use stdClass;
 
 // contentのリソースに対する認可処理をまとめて記述するpolicyクラス
 class ContentPolicy
@@ -63,5 +65,18 @@ class ContentPolicy
     public function forceDelete(User $user, Content $content): bool
     {
         //
+    }
+
+    /**
+     * stdClassクラスのプロパティにidがあるかどうか調べ、存在する場合は認証ユーザーのidと同じ値であるか比較する
+     * 同じであれば実行可能とする
+     */
+    public function edit(Authenticatable $authenticatable, stdClass $class): bool
+    {
+        if (property_exists($class, 'id')) {
+            return intval($authenticatable->getAuthIdentifier()) === intval($class->id);
+        }
+
+        return false;
     }
 }

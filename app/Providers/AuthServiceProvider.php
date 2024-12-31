@@ -13,11 +13,18 @@ use Illuminate\Contracts\Auth\Access\Gate;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Psr\Log\LoggerInterface;
+use stdClass;
 
 class AuthServiceProvider extends ServiceProvider
 {
+    // Eloquentモデルを利用したポリシー
+    // protected $policies = [
+    //     Content::class => ContentPolicy::class,
+    // ];
+
+    // Eloquentモデルを利用しないポリシー
     protected $policies = [
-        Content::class => ContentPolicy::class,
+        stdClass::class => ContentPolicy::class,
     ];
 
     /**

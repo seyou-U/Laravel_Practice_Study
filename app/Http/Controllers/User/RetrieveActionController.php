@@ -9,6 +9,8 @@ use Illuminate\Auth\Access\Gate;
 use Illuminate\Auth\AuthManager;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use stdClass;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class RetrieveActionController extends Controller
 {
@@ -36,6 +38,21 @@ class RetrieveActionController extends Controller
         if ($user->can('update', $content)) {
             // 実行可能な場合は処理される
         }
+
+        $class = new stdClass;
+        // ビルドインインスタンスにidプロパティを与える
+        $class->id = 1;
+        // ログインユーザーとビルドインインスタンスをポリシークラスのeditに利用している
+        $this->gate->forUser(
+            $this->authManager->guard()->user()
+        )->allows('edit', $class);
+
+        // 以下は上記のコードと同等
+        app(AuthorizesRequests::class)->authorizeForUser(
+            $this->authManager->guard()->user(),
+            'edit',
+            $class
+        );
 
         return $this->authManager->guard('jwt')->user();
     }
