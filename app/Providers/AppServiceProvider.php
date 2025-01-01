@@ -6,6 +6,7 @@ use App\BlowfishEncrypter;
 use App\Class\Complex;
 use App\Class\MailSender;
 use App\Class\PushSender;
+use App\Foundation\ViewComposer\PolicyComposer;
 use App\Listeners\RegisteredListener;
 use App\Services\AdminService;
 use App\Services\UserService;
@@ -18,6 +19,7 @@ use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 use Monolog\Logger;
 use Illuminate\Support\Str;
+use Illuminate\View\Factory;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -52,7 +54,7 @@ class AppServiceProvider extends ServiceProvider
     /**
      * アプリケーションサービスへのブートストラップ処理 (アプリケーションが起動する際に割り込んで実行される処理)を記述
      */
-    public function boot(): void
+    public function boot(Factory $factory): void
     {
         Event::listen(
             RegisteredListener::class,
@@ -78,6 +80,9 @@ class AppServiceProvider extends ServiceProvider
             ->give(function() {
                 return new MailSender();
             });
+
+        // composerの第一引数にはテンプレート名を記述する
+        $factory->composer('welcome', PolicyComposer::class);
     }
 
     protected function parseKey(array $config)
