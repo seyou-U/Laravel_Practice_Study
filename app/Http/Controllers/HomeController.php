@@ -12,6 +12,7 @@ use App\Services\AdminService;
 use App\Services\UserService;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Request;
@@ -89,7 +90,17 @@ class HomeController extends Controller
         $pdoResult = $this->bookDataAccessObject->dataExtractionUsingPdo();
 
         // コントローラ内でのイベント実行
-        PublishProcessor::dispatch(5);
+        // PublishProcessor::dispatch(5);
+
+        // 指定のメールアドレスとログインしているユーザのメールアドレスが同じでかつ、指定したイベントに紐付くリスナーがある場合
+        // イベントをキャンセルすることができる
+        $CheckEmailMatches = Auth::user()->email == config('user.email');
+        if ($CheckEmailMatches && \Event::hasListeners(PublishProcessor::class)) {
+            \Event::forget(PublishProcessor::class);
+        }
+        PublishProcessor::dispatch(Auth::user()->id);
+        // 上記のイベント発生処理について下記のように記述することもできる
+        // \Event::dispatch(new PublishProcessor(Auth::user()->id));
 
         return view('home');
     }
