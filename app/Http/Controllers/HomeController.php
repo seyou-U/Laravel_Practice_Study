@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Class\Complex;
 use App\Class\PushSender;
 use App\DataAccess\BookDataAccessObject;
+use App\Events\PublishProcessor;
 use App\Models\Author;
 use App\Interfaces\NotifierInterface;
 use App\Services\AdminService;
@@ -86,6 +87,9 @@ class HomeController extends Controller
 
         $result = $this->bookDataAccessObject->dataExtractionUsingSQL();
         $pdoResult = $this->bookDataAccessObject->dataExtractionUsingPdo();
+
+        // コントローラ内でのイベント実行
+        PublishProcessor::dispatch(5);
 
         return view('home');
     }

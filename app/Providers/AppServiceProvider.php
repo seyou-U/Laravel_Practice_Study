@@ -2,16 +2,17 @@
 
 namespace App\Providers;
 
-use App\BlowfishEncrypter;
 use App\Class\Complex;
 use App\Class\MailSender;
 use App\Class\PushSender;
+use App\Events\PublishProcessor;
 use App\Foundation\ViewComposer\PolicyComposer;
 use App\Listeners\RegisteredListener;
 use App\Services\AdminService;
 use App\Services\UserService;
 use App\Interfaces\NotifierInterface;
 use App\Interfaces\PublisherRepositoryInterface;
+use App\Listeners\MessageSubscriber;
 use App\Repository\PublisherRepository;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Encryption\MissingAppKeyException;
@@ -58,6 +59,8 @@ class AppServiceProvider extends ServiceProvider
     {
         Event::listen(
             RegisteredListener::class,
+            PublishProcessor::class,
+            MessageSubscriber::class,
         );
 
         // 通常はここにバインド処理を記述
