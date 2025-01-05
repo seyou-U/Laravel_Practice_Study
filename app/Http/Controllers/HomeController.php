@@ -98,9 +98,7 @@ class HomeController extends Controller
         if ($CheckEmailMatches && \Event::hasListeners(PublishProcessor::class)) {
             \Event::forget(PublishProcessor::class);
         }
-        PublishProcessor::dispatch(Auth::user()->id);
-        // 上記のイベント発生処理について下記のように記述することもできる
-        // \Event::dispatch(new PublishProcessor(Auth::user()->id));
+        event(new PublishProcessor(Auth::user()->id));
 
         return view('home');
     }

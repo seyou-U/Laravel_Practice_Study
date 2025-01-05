@@ -5,18 +5,17 @@ namespace App\Listeners;
 use App\Events\PublishProcessor;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Facades\Log;
 
-class MessageSubscriber
+class MessageQueueSubscriber implements ShouldQueue
 {
-    public function __invoke()
-    {
-        //
-    }
+    use InteractsWithQueue;
+
     /**
      * Handle the event.
      */
     public function handle(PublishProcessor $event): void
     {
-        var_dump($event->getInt());
+        Log::info($event->getInt());
     }
 }

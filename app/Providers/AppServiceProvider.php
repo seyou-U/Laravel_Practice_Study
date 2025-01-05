@@ -12,6 +12,7 @@ use App\Services\AdminService;
 use App\Services\UserService;
 use App\Interfaces\NotifierInterface;
 use App\Interfaces\PublisherRepositoryInterface;
+use App\Listeners\MessageQueueSubscriber;
 use App\Listeners\MessageSubscriber;
 use App\Repository\PublisherRepository;
 use Illuminate\Contracts\Foundation\Application;
@@ -59,8 +60,15 @@ class AppServiceProvider extends ServiceProvider
     {
         Event::listen(
             RegisteredListener::class,
+            // MessageQueueSubscriber::class,
+        );
+
+        Event::listen(
             PublishProcessor::class,
-            MessageSubscriber::class,
+            [
+                MessageSubscriber::class,
+                MessageQueueSubscriber::class,
+            ],
         );
 
         // 通常はここにバインド処理を記述
