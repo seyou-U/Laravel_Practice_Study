@@ -8,6 +8,7 @@
         "php": "^8.2",
         "askdkc/breezejp": "^1.8",
         "barryvdh/laravel-debugbar": "^3.14",
+        "knplabs/knp-snappy": "^1.5",
         "laravel/framework": "^11.9",
         "laravel/sanctum": "^4.0",
         "laravel/socialite": "^5.16",

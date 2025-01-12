@@ -8,6 +8,7 @@ use App\Http\Actions\StreamAction;
 use App\Http\Actions\TextAction;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\PdfGeneratorAction;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\HeaderDumper;
@@ -51,3 +52,5 @@ Route::get('/payload', ArticlepayloadAction::class);
 
 //  コントローラーのクラスのみを指定した場合、AddTaskActionの__invokeメソッドを実行する
 // Route::post('/tasks', 'AddTaskAction::class');
+
+Route::get('/pdf', PdfGeneratorAction::class);

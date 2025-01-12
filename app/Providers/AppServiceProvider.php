@@ -22,6 +22,7 @@ use Illuminate\Support\ServiceProvider;
 use Monolog\Logger;
 use Illuminate\Support\Str;
 use Illuminate\View\Factory;
+use Knp\Snappy\Pdf;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -43,6 +44,13 @@ class AppServiceProvider extends ServiceProvider
             PublisherRepositoryInterface::class,
             PublisherRepository::class
         );
+
+        // コンストラクタインジェクションおよびメソッドインジェクションで、
+        // Knp\Snappy\Pdfと型宣言されていれば、無名関数で記述した通りにインスタンス生成が行われ
+        // 利用するクラスにオブジェクトが渡される
+        $this->app->bind(Pdf::class, function () {
+            return new Pdf('/usr/bin/wkhtmltopdf');
+        });
 
         // 作成したコントラクトのバインドを定義する
         // $this->app->singleton('encrypter', function (Application $app) {
