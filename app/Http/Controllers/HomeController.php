@@ -94,11 +94,14 @@ class HomeController extends Controller
 
         // 指定のメールアドレスとログインしているユーザのメールアドレスが同じでかつ、指定したイベントに紐付くリスナーがある場合
         // イベントをキャンセルすることができる
-        $CheckEmailMatches = Auth::user()->email == config('user.email');
-        if ($CheckEmailMatches && \Event::hasListeners(PublishProcessor::class)) {
-            \Event::forget(PublishProcessor::class);
+        $loginUser = Auth::user();
+        if (!empty($loginUser)) {
+            $CheckEmailMatches = Auth::user()->email == config('user.email');
+            if ($CheckEmailMatches && \Event::hasListeners(PublishProcessor::class)) {
+                \Event::forget(PublishProcessor::class);
+            }
+            event(new PublishProcessor(Auth::user()->id));
         }
-        event(new PublishProcessor(Auth::user()->id));
 
         return view('home');
     }
