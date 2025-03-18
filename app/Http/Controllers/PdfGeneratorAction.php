@@ -22,10 +22,16 @@ final class PdfGeneratorAction extends Controller
     {
         $generator = new PdfGenerator(storage_path('pdf/sample.pdf'));
 
+        // キューの分散 (複数ある場合)
+        // dispatchヘルパ関数でどのQueueの処理を行うか指定する
+        // 従来はdefaultだが、ここではpdf.generatorとして指定している
+        dispatch($generator)->onQueue('pdf.generator');
+
         // コンストラクタインジェクションを利用して
         // Illuminate\Contracts\Bus\Dispatcherインターフェイスの
         // dispatchメソッドで実行指示。Busファサードを用いた記述もできる
         $this->dispatcher->dispatch($generator);
+
         // Illuminate\Contracts\Bus\DispatcherJobsトレイトで経由するでdispatchを利用可能
         // $this->dispatcher($generator);
         // dispatchヘルパ関数で実行
