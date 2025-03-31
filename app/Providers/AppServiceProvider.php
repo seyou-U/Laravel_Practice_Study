@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Class\Complex;
 use App\Class\MailSender;
 use App\Class\PushSender;
+use App\DataProvider\RegisterReviewDataProvider;
 use App\Events\PublishProcessor;
 use App\Events\ReviewRegistered;
 use App\Foundation\ViewComposer\PolicyComposer;
@@ -13,6 +14,7 @@ use App\Services\AdminService;
 use App\Services\UserService;
 use App\Interfaces\NotifierInterface;
 use App\Interfaces\PublisherRepositoryInterface;
+use App\Interfaces\RegisterReviewProviderInterface;
 use App\Listeners\MessageQueueSubscriber;
 use App\Listeners\MessageSubscriber;
 use App\Listeners\ReviewIndexCreator;
@@ -61,6 +63,11 @@ class AppServiceProvider extends ServiceProvider
         //         return new BlowfishEncrypter($this->parseKey($config));
         //     }
         // );
+
+        // 口コミ登録クラスの依存関係を定義する
+        $this->app->bind(RegisterReviewProviderInterface::class, function() {
+            return new RegisterReviewDataProvider();
+        });
     }
 
     /**
