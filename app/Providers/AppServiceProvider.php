@@ -2,16 +2,22 @@
 
 namespace App\Providers;
 
-use App\BlowfishEncrypter;
 use App\Class\Complex;
 use App\Class\MailSender;
 use App\Class\PushSender;
+use App\DataProvider\RegisterReviewDataProvider;
+use App\Events\PublishProcessor;
+use App\Events\ReviewRegistered;
 use App\Foundation\ViewComposer\PolicyComposer;
 use App\Listeners\RegisteredListener;
 use App\Services\AdminService;
 use App\Services\UserService;
 use App\Interfaces\NotifierInterface;
 use App\Interfaces\PublisherRepositoryInterface;
+use App\Interfaces\RegisterReviewProviderInterface;
+use App\Listeners\MessageQueueSubscriber;
+use App\Listeners\MessageSubscriber;
+use App\Listeners\ReviewIndexCreator;
 use App\Repository\PublisherRepository;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Encryption\MissingAppKeyException;
@@ -20,6 +26,7 @@ use Illuminate\Support\ServiceProvider;
 use Monolog\Logger;
 use Illuminate\Support\Str;
 use Illuminate\View\Factory;
+use Knp\Snappy\Pdf;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -42,6 +49,13 @@ class AppServiceProvider extends ServiceProvider
             PublisherRepository::class
         );
 
+        // コンストラクタインジェクションおよびメソッドインジェクションで、
+        // Knp\Snappy\Pdfと型宣言されていれば、無名関数で記述した通りにインスタンス生成が行われ
+        // 利用するクラスにオブジェクトが渡される
+        $this->app->bind(Pdf::class, function () {
+            return new Pdf('/usr/bin/wkhtmltopdf');
+        });
+
         // 作成したコントラクトのバインドを定義する
         // $this->app->singleton('encrypter', function (Application $app) {
         //         // config/app.phpからアプリケーションの情報を取得する
@@ -49,6 +63,11 @@ class AppServiceProvider extends ServiceProvider
         //         return new BlowfishEncrypter($this->parseKey($config));
         //     }
         // );
+
+        // 口コミ登録クラスの依存関係を定義する
+        $this->app->bind(RegisterReviewProviderInterface::class, function() {
+            return new RegisterReviewDataProvider();
+        });
     }
 
     /**
@@ -58,6 +77,22 @@ class AppServiceProvider extends ServiceProvider
     {
         Event::listen(
             RegisteredListener::class,
+            // MessageQueueSubscriber::class,
+        );
+
+        Event::listen(
+            PublishProcessor::class,
+            [
+                MessageSubscriber::class,
+                MessageQueueSubscriber::class,
+            ],
+        );
+
+        Event::listen(
+            ReviewRegistered::class,
+            [
+                ReviewIndexCreator::class,
+            ]
         );
 
         // 通常はここにバインド処理を記述

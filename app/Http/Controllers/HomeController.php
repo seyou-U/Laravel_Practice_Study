@@ -5,12 +5,14 @@ namespace App\Http\Controllers;
 use App\Class\Complex;
 use App\Class\PushSender;
 use App\DataAccess\BookDataAccessObject;
+use App\Events\PublishProcessor;
 use App\Models\Author;
 use App\Interfaces\NotifierInterface;
 use App\Services\AdminService;
 use App\Services\UserService;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Request;
@@ -86,6 +88,20 @@ class HomeController extends Controller
 
         $result = $this->bookDataAccessObject->dataExtractionUsingSQL();
         $pdoResult = $this->bookDataAccessObject->dataExtractionUsingPdo();
+
+        // コントローラ内でのイベント実行
+        // PublishProcessor::dispatch(5);
+
+        // 指定のメールアドレスとログインしているユーザのメールアドレスが同じでかつ、指定したイベントに紐付くリスナーがある場合
+        // イベントをキャンセルすることができる
+        $loginUser = Auth::user();
+        if (!empty($loginUser)) {
+            $CheckEmailMatches = Auth::user()->email == config('user.email');
+            if ($CheckEmailMatches && \Event::hasListeners(PublishProcessor::class)) {
+                \Event::forget(PublishProcessor::class);
+            }
+            event(new PublishProcessor(Auth::user()->id));
+        }
 
         return view('home');
     }
