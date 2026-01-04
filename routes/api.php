@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Actions\PublisherAction;
+use App\Http\Controllers\MemoController;
 use App\Http\Controllers\UserActionController;
 use App\Http\Controllers\User\LoginActionController;
 use App\Http\Controllers\User\RetrieveActionController;
@@ -23,3 +24,5 @@ Route::group(['middleware' => 'api'], function () {
     Route::post('/users/{id}', RetrieveActionController::class)
         ->middleware('auth:jwt');
 });
+
+Route::post('/memos', [MemoController::class, 'store']);
