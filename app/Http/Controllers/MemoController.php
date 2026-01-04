@@ -46,9 +46,19 @@ class MemoController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, int $id)
     {
-        //
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'content' => 'required|string'
+        ]);
+
+        $memo = Memo::findOrFail($id);
+        $memo->update($validated);
+
+        return response()->json($memo);
+        // MemoResourceを使った記述
+        // return new MemoResource($memo);
     }
 
     /**
@@ -56,6 +66,9 @@ class MemoController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $memo = Memo::findOrFail($id);
+        $memo->delete();
+
+        return response()->json(null. 204);
     }
 }

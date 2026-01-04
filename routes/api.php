@@ -25,4 +25,4 @@ Route::group(['middleware' => 'api'], function () {
         ->middleware('auth:jwt');
 });
 
-Route::resource('memos', MemoController::class, ['only' => ['index', 'show', 'store']]);
+Route::resource('memos', MemoController::class);
