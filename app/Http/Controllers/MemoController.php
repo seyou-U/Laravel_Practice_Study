@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\MemoResource;
 use App\Models\Memo;
 use Illuminate\Http\Request;
 
@@ -12,7 +13,8 @@ class MemoController extends Controller
      */
     public function index()
     {
-        //
+        $memos = Memo::all();
+        return response()->json($memos);
     }
 
     /**
@@ -31,9 +33,14 @@ class MemoController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Memo $memo)
     {
-        //
+        // MemoResourceを使った記述
+        // return new MemoResource($memo);
+
+        // Eloquentを使った記述
+        // whereは条件で絞り込むのに対し、findは主キーでの検索
+        return Memo::findOrFail($memo->id);
     }
 
     /**
