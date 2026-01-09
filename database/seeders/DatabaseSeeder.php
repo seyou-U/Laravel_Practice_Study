@@ -18,16 +18,16 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        // User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        User::firstOrCreate([
+            'name' => 'Test User',
+            'email' => 'test@example.com',
+        ]);
 
         // seederクラスはcallメソッドを用いて呼び出す
-        // $this->call(AuthorsTableSeeder::class);
+        $this->call(AuthorsTableSeeder::class);
 
         // // Factoryクラスはcreateメソッドを用いることで作成することができる
-        // Publisher::factory(50)->create();
+        Publisher::factory(50)->create();
 
         // $this->call(
         //     [
