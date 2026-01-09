@@ -13,7 +13,7 @@ class MemoController extends Controller
      */
     public function index()
     {
-        $memos = Memo::all();
+        $memos = Memo::paginate(10);
         return response()->json($memos);
     }
 

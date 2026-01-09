@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Memo;
 use App\Models\Publisher;
 use App\Models\User;
 use Database\Factories\PublisherFactory;
@@ -17,21 +18,24 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        // User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        User::firstOrCreate([
+            'name' => 'Test User',
+            'email' => 'test@example.com',
+        ]);
 
         // seederクラスはcallメソッドを用いて呼び出す
         $this->call(AuthorsTableSeeder::class);
 
-        // Factoryクラスはcreateメソッドを用いることで作成することができる
+        // // Factoryクラスはcreateメソッドを用いることで作成することができる
         Publisher::factory(50)->create();
 
-        $this->call(
-            [
-                UserSeeder::class,
-            ]
-        );
+        // $this->call(
+        //     [
+        //         UserSeeder::class,
+        //     ]
+        // );
+
+        // 10件以上でページが切り替わるページネーションについて動作確認するためにダミーデータを10件作成する
+        Memo::factory()->count(10)->create();
     }
 }
