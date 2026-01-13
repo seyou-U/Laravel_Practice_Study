@@ -23,7 +23,7 @@ class StoreMemoRequest extends FormRequest
     {
         return [
             'title' => ['required', 'string', 'max:50'],
-            'content' => ['required', 'text', 'max:255'],
+            'content' => ['required', 'string', 'max:255'],
         ];
     }
 }

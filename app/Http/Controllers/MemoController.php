@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreMemoRequest;
 use App\Http\Resources\MemoResource;
 use App\Models\Memo;
 use Illuminate\Http\Request;
@@ -20,12 +21,10 @@ class MemoController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreMemoRequest $request)
     {
-        $memo = Memo::create([
-            'title' => $request->title,
-            'content' => $request->content,
-        ]);
+        $validated = $request->validated();
+        $memo = Memo::create($validated);
 
         return response()->json($memo, 201);
     }
