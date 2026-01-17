@@ -9,7 +9,7 @@ use App\Gate\UserAccess;
 use App\Models\Content;
 use App\Models\User;
 use App\Policies\ContentPolicy;
-use Illuminate\Contracts\Auth\Access\Gate;
+use Illuminate\Contracts\Auth\Access\Gate as GateContract;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Psr\Log\LoggerInterface;
@@ -38,7 +38,7 @@ class AuthServiceProvider extends ServiceProvider
     /**
      * 自作認証ドライバの登録
      */
-    public function boot(Gate $gate, LoggerInterface $logger): void
+    public function boot(GateContract $gate, LoggerInterface $logger): void
     {
         // Gate::policy()を呼び出す
         $this->registerPolicies();
@@ -77,14 +77,18 @@ class AuthServiceProvider extends ServiceProvider
         });
 
         // 1つの認可処理を表現したクラスをインスタンス化して呼び出す
-        $gate->define('user-access', new UserAccess);
+        // $gate->define('user-access', new UserAccess);
 
         // before : 認可処理を実行させる前に動作させる
         // この後実行される処理でどのユーザーがアクセスしたか残すログ
+        // 未認証アクセスのことを考慮、$userがnullの場合についても対応
         $gate->before(function ($user, $ability) use ($logger) {
-            $logger->info($ability, [
-                'user_id' => $user->getAuthIdentifier()]
-            );
+            if (! $user) {
+                return null;
+            }
+
+            $logger->info($ability, ['user_id' => $user->getAuthIdentifier()]);
+            return null;
         });
     }
 }

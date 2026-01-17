@@ -42,10 +42,10 @@ return [
             // provider : 認証情報のアクセス方法を指定する。
             'provider' => 'users',
         ],
-        'api' => [
-            'driver' => 'token',
-            'provider' => 'user_token',
-            'hash' => false,
+        // apiは一時削除
+        'sanctum' => [
+            'driver' => 'sanctum',
+            'provider' => 'users'
         ],
         'jwt' => [
             // jwtドライバの追加
