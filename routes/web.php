@@ -6,6 +6,7 @@ use App\Http\Actions\JsonAction;
 use App\Http\Actions\JsonpAction;
 use App\Http\Actions\StreamAction;
 use App\Http\Actions\TextAction;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PdfGeneratorAction;
@@ -54,3 +55,5 @@ Route::get('/payload', ArticlepayloadAction::class);
 // Route::post('/tasks', 'AddTaskAction::class');
 
 Route::get('/pdf', PdfGeneratorAction::class);
+
+Route::post('/contact', [ContactController::class, 'store']);
