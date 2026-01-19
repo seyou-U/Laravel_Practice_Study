@@ -38,7 +38,7 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::resource('users', UserController::class)->only([
-    'show', 'store'
+    'index', 'show', 'store'
 ]);
 
 // ADRパターンのルーティング定義

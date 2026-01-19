@@ -15,12 +15,14 @@ use App\Services\UserService;
 use App\Interfaces\NotifierInterface;
 use App\Interfaces\PublisherRepositoryInterface;
 use App\Interfaces\RegisterReviewProviderInterface;
+use App\Interfaces\UserRepositoryInterface;
 use App\Listeners\MessageQueueSubscriber;
 use App\Listeners\MessageSubscriber;
 use App\Listeners\ReviewIndexCreator;
 use App\Models\User;
 use App\Observers\UserObserver;
 use App\Repository\PublisherRepository;
+use App\Repository\UserRepository;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Encryption\MissingAppKeyException;
 use Illuminate\Support\Facades\Event;
@@ -70,6 +72,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(RegisterReviewProviderInterface::class, function() {
             return new RegisterReviewDataProvider();
         });
+
+        $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
     }
 
     /**
