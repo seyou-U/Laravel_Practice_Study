@@ -40,8 +40,8 @@ class RegisteredListener
         // });
 
         // メール送信のジョブでキューにmailを指定し、実行時間を1時間遅らせる
-        dispatch(new SendRegistMail($event->user->email))
-            ->onQueue('mail')
-            ->delay(now()->addHour(1));
+        // dispatch(new SendRegistMail($event->user->email))
+        //     ->onQueue('mail')
+        //     ->delay(now()->addHour(1));
     }
 }

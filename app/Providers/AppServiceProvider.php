@@ -18,6 +18,8 @@ use App\Interfaces\RegisterReviewProviderInterface;
 use App\Listeners\MessageQueueSubscriber;
 use App\Listeners\MessageSubscriber;
 use App\Listeners\ReviewIndexCreator;
+use App\Models\User;
+use App\Observers\UserObserver;
 use App\Repository\PublisherRepository;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Encryption\MissingAppKeyException;
@@ -118,6 +120,8 @@ class AppServiceProvider extends ServiceProvider
 
         // composerの第一引数にはテンプレート名を記述する
         $factory->composer('welcome', PolicyComposer::class);
+
+        User::observe(UserObserver::class);
     }
 
     protected function parseKey(array $config)
