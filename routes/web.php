@@ -37,9 +37,11 @@ Route::middleware('auth')->group(function () {
         // Route::post('people', [RegisterController::class, 'store']);
 });
 
-Route::resource('users', UserController::class)->only([
+Route::resource('users', UserController::class)
+->only([
     'index', 'show', 'store'
-]);
+])
+->middleware('admin');
 
 // ADRパターンのルーティング定義
 // Route::get('users', UserIndexAction::class);
