@@ -13,6 +13,7 @@ use App\Http\Controllers\PdfGeneratorAction;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\HeaderDumper;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -56,4 +57,5 @@ Route::get('/payload', ArticlepayloadAction::class);
 
 Route::get('/pdf', PdfGeneratorAction::class);
 
+Route::get('/contact', [ContactController::class, 'create']);
 Route::post('/contact', [ContactController::class, 'store']);

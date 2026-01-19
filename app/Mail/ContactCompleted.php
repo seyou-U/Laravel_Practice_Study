@@ -26,6 +26,6 @@ class ContactCompleted extends Mailable
     {
         return $this
             ->subject('お問合せありがとうございます')
-            ->view('emails.contact_completed');
+            ->view('mail.contact_completed');
     }
 }
