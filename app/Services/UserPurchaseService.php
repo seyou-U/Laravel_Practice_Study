@@ -15,6 +15,13 @@ class UserPurchaseService
     {
         $this->userRepository = $userRepository;
     }
+
+    public function getUsers()
+    {
+        $users = $this->userRepository->all();
+        return $users;
+    }
+
     /**
      *
      * レイヤードアーキテクチャに基づきServiceメソッド作成

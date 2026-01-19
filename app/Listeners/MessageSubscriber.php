@@ -17,6 +17,6 @@ class MessageSubscriber
      */
     public function handle(PublishProcessor $event): void
     {
-        var_dump($event->getInt());
+        // var_dump($event->getInt());
     }
 }

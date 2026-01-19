@@ -6,12 +6,14 @@ use App\Http\Actions\JsonAction;
 use App\Http\Actions\JsonpAction;
 use App\Http\Actions\StreamAction;
 use App\Http\Actions\TextAction;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PdfGeneratorAction;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\HeaderDumper;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -35,9 +37,11 @@ Route::middleware('auth')->group(function () {
         // Route::post('people', [RegisterController::class, 'store']);
 });
 
-Route::resource('users', UserController::class)->only([
-    'show', 'store'
-]);
+Route::resource('users', UserController::class)
+->only([
+    'index', 'show', 'store'
+])
+->middleware('admin');
 
 // ADRパターンのルーティング定義
 // Route::get('users', UserIndexAction::class);
@@ -54,3 +58,6 @@ Route::get('/payload', ArticlepayloadAction::class);
 // Route::post('/tasks', 'AddTaskAction::class');
 
 Route::get('/pdf', PdfGeneratorAction::class);
+
+Route::get('/contact', [ContactController::class, 'create']);
+Route::post('/contact', [ContactController::class, 'store']);

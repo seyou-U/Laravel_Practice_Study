@@ -19,6 +19,13 @@ class UserController extends Controller
         $this->service = $service;
     }
 
+    public function index()
+    {
+        $users = $this->service->getUsers();
+
+        return view('user.index', compact('users'));
+    }
+
     public function show(Request $request): View
     {
         $result =  $this->service->retrievePurchase($request->get('id'));
