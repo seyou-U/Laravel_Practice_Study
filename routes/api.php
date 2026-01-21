@@ -28,3 +28,12 @@ Route::group(['middleware' => 'api'], function () {
 });
 
 Route::resource('memos', MemoController::class);
+
+// Laravel Octaneの動作確認用のルート
+// Octaneが動作している場合、同じPIDが返ってくる
+Route::get('/octane-check', function () {
+    return response()->json([
+        'pid' => getmypid(),
+        'time' => microtime(true),
+    ]);
+});
