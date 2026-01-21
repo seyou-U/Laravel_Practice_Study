@@ -8,3 +8,9 @@ Artisan::command('inspire', function () {
 })->purpose('Display an inspiring quote')->hourly();
 
 Schedule::command('records:delete-old')->everyMinute();
+
+Schedule::command('batch:daily-report')
+    ->dailyAt('02:00')
+    ->onOneServer()
+    ->withoutOverlapping()
+    ->runInBackground();
