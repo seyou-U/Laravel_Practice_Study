@@ -12,9 +12,12 @@ class MemoController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $memos = Memo::paginate(10);
+        $memos = Memo::where('user_id', $request->user()->id)
+            ->orderByDesc('updated_at')
+            ->paginate(10);
+
         return response()->json($memos);
     }
 
@@ -23,8 +26,16 @@ class MemoController extends Controller
      */
     public function store(StoreMemoRequest $request)
     {
+        logger()->info('MemoController@store called', [
+        'auth_user_id' => optional($request->user())->id,
+        'validated' => $request->validated(),
+        'all' => $request->all(),
+    ]);
         $validated = $request->validated();
-        $memo = Memo::create($validated);
+        $memo = Memo::create([
+            ...$validated,
+            'user_id' => $request->user()->id,
+        ]);
 
         return response()->json($memo, 201);
     }
@@ -32,27 +43,29 @@ class MemoController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Memo $memo)
+    public function show(Request $request, Memo $memo)
     {
         // MemoResourceを使った記述
         // return new MemoResource($memo);
 
-        // Eloquentを使った記述
-        // whereは条件で絞り込むのに対し、findは主キーでの検索
-        return Memo::findOrFail($memo->id);
+        // 他人のメモを見れないようにする
+        abort_unless($memo->user_id === $request->user()->id, 403);
+
+        return response()->json($memo);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, int $id)
+    public function update(Request $request, Memo $memo)
     {
+        abort_unless($memo->user_id === $request->user()->id, 403);
+
         $validated = $request->validate([
             'title' => 'required|string|max:255',
-            'content' => 'required|string'
+            'content' => 'required|string',
         ]);
 
-        $memo = Memo::findOrFail($id);
         $memo->update($validated);
 
         return response()->json($memo);
@@ -63,11 +76,12 @@ class MemoController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Request $request, Memo $memo)
     {
-        $memo = Memo::findOrFail($id);
+        abort_unless($memo->user_id === $request->user()->id, 403);
+
         $memo->delete();
 
-        return response()->json(null. 204);
+        return response()->noContent(); // 204
     }
 }

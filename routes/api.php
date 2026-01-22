@@ -7,7 +7,6 @@ use App\Http\Controllers\User\LoginActionController;
 use App\Http\Controllers\User\RetrieveActionController;
 use Illuminate\Support\Facades\Route;
 
-Route::group(['middleware' => 'api'], function () {
     // ログインを行い、アクセストークンを発行する
     Route::post('/users/login', LoginActionController::class);
     Route::post('/publishers', [PublisherAction::class, 'create']);
@@ -24,10 +23,9 @@ Route::group(['middleware' => 'api'], function () {
         Route::get('/user', UserActionController::class);
         // 認証ユーザーの詳細取得
         Route::get('/users/me', RetrieveActionController::class);
-    });
-});
 
-Route::resource('memos', MemoController::class);
+        Route::apiResource('memos', MemoController::class);
+    });
 
 // Laravel Octaneの動作確認用のルート
 // Octaneが動作している場合、同じPIDが返ってくる

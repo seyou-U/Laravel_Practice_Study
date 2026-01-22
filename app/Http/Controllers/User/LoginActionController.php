@@ -26,7 +26,7 @@ class LoginActionController extends Controller
             ]);
         }
 
-        $token = $user->createToken('api-token')->plainTextToken;
+        $token = $user->createToken('postman')->plainTextToken;
 
         return response()->json([
             'token' => $token,

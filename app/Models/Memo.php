@@ -19,6 +19,7 @@ class Memo extends Model
     protected $fillable = [
         'title',
         'content',
+        'user_id',
     ];
 
     // JSONに含めたい属性の追加

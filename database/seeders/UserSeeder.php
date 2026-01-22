@@ -21,6 +21,7 @@ final class UserSeeder extends Seeder
                 [
                     'name' => 'laravel user',
                     'email' => 'mail@example.com',
+                    'phone' => '080-0000-0000',
                     'password' => $hasher->make('password'),
                     'created_at' => $datetime,
                 ]

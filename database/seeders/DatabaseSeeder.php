@@ -8,6 +8,7 @@ use App\Models\User;
 use Database\Factories\PublisherFactory;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -21,6 +22,8 @@ class DatabaseSeeder extends Seeder
         User::firstOrCreate([
             'name' => 'Test User',
             'email' => 'test@example.com',
+            'phone' => '080-0000-0000',
+            'password' => Hash::make('password'),
         ]);
 
         // seederクラスはcallメソッドを用いて呼び出す
@@ -36,6 +39,6 @@ class DatabaseSeeder extends Seeder
         // );
 
         // 10件以上でページが切り替わるページネーションについて動作確認するためにダミーデータを10件作成する
-        Memo::factory()->count(10)->create();
+        Memo::factory()->count(10)->create(['user_id' => 1]);
     }
 }
