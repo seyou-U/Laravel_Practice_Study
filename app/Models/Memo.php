@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 
 class Memo extends Model
@@ -57,5 +58,29 @@ class Memo extends Model
             get: fn($value, array $attribute) =>
                 Str::limit($attribute['content'] ?? '', 60, '...')
         );
+    }
+
+    /**
+     * Memoの作成/更新/削除時に、該当ユーザーのMemo関連キャッシュをまとめて削除する
+     *
+     * return void
+     */
+    protected static function booted(): void
+    {
+        $flushUserCaches = function (int $userId) {
+            Cache::tags(["memos:user:{$userId}"])->flush();
+        };
+
+        static::created(function (Memo $memo) use ($flushUserCaches) {
+            $flushUserCaches($memo->user_id);
+        });
+
+        static::updated(function (Memo $memo) use ($flushUserCaches){
+            $flushUserCaches($memo->user_id);
+        });
+
+        static::deleted(function (Memo $memo) use ($flushUserCaches){
+            $flushUserCaches($memo->user_id);
+        });
     }
 }

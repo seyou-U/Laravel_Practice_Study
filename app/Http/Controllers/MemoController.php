@@ -3,20 +3,27 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreMemoRequest;
-use App\Http\Resources\MemoResource;
 use App\Models\Memo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class MemoController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * 10分間キャッシュを利用してメモの一覧を取得する
      */
     public function index(Request $request)
     {
-        $memos = Memo::where('user_id', $request->user()->id)
-            ->orderByDesc('updated_at')
-            ->paginate(10);
+        $userId = $request->user()->id;
+        $page = $request->query('page', 1);
+        $key = "memos:index:user:{$userId}:page:{$page}";
+
+        $memos = Cache::tags(["memos:user:{$userId}"])
+            ->remember($key, now()->addMinutes(10), function() use ($userId, $page) {
+                return Memo::where('user_id', $userId)
+                    ->orderByDesc('updated_at')
+                    ->paginate(10, ['*'], 'page', $page);
+        });
 
         return response()->json($memos);
     }
@@ -41,15 +48,21 @@ class MemoController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * 5分間キャッシュを利用してメモの詳細を取得する
      */
     public function show(Request $request, Memo $memo)
     {
         // MemoResourceを使った記述
         // return new MemoResource($memo);
 
+        $userId = $request->user()->id;
         // 他人のメモを見れないようにする
-        abort_unless($memo->user_id === $request->user()->id, 403);
+        abort_unless($memo->user_id === $userId, 403);
+
+        $key = "memos:show:user:{$userId}:memo:{$memo->id}";
+
+        // fresh()は、最新のモデルの状態を返却するメソッド
+        $memo = Cache::remember($key, now()->addMinutes(5), fn() => $memo->fresh());
 
         return response()->json($memo);
     }
