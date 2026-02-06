@@ -48,7 +48,7 @@ Route::group(['middleware' => 'api'], function () {
 
         // 在庫ありのみ
         if ($onlyInStock) {
-            $items = array_values(array_filter($items, fn ($p) => $p['onlyInStock'] === true));
+            $items = array_values(array_filter($items, fn ($p) => $p['stocked'] === true));
         }
 
         return response()->json($items);
