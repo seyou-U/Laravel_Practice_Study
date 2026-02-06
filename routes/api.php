@@ -30,13 +30,13 @@ Route::group(['middleware' => 'api'], function () {
     // Reactとの疎通確認のため直接記述 (簡易的な動作確認を行うために一時こちらに全て記述)
     Route::get('/products', function (Request $request) {
         $q = (string) $request->query('q', '');
-        $onlyInStock = $request->query('onlyInStock') === '1';
+        $onlyInStock = request()->boolean('onlyInStock');
 
         $items = [
-            ['id' => 1, 'name' => 'Football', 'category' => 'Sporting Goods', 'price' => 49.99, 'onlyInStock' => true],
-            ['id' => 2, 'name' => 'Baseball', 'category' => 'Sporting Goods', 'price' => 9.99, 'onlyInStock' => true],
-            ['id' => 3, 'name' => 'iPod Touch', 'category' => 'Electronics', 'price' => 99.99, 'onlyInStock' => true],
-            ['id' => 4, 'name' => 'iPhone 15', 'category' => 'Electronics', 'price' => 999.99, 'onlyInStock' => false],
+            ['id' => 1, 'name' => 'Football', 'category' => 'Sporting Goods', 'price' => 49.99, 'stocked' => true],
+            ['id' => 2, 'name' => 'Baseball', 'category' => 'Sporting Goods', 'price' => 9.99, 'stocked' => true],
+            ['id' => 3, 'name' => 'iPod Touch', 'category' => 'Electronics', 'price' => 99.99, 'stocked' => true],
+            ['id' => 4, 'name' => 'iPhone 15', 'category' => 'Electronics', 'price' => 999.99, 'stocked' => false],
         ];
 
         // 検索
