@@ -40,5 +40,7 @@ class DatabaseSeeder extends Seeder
 
         // 10件以上でページが切り替わるページネーションについて動作確認するためにダミーデータを10件作成する
         Memo::factory()->count(10)->create(['user_id' => 1]);
+
+        $this->call(ProductSeeder::class);
     }
 }
