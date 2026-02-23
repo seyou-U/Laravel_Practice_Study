@@ -4,6 +4,7 @@ use App\Http\Actions\PublisherAction;
 use App\Http\Controllers\MemoController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserActionController;
+use App\Http\Controllers\User\LogoutActionController;
 use App\Http\Controllers\User\LoginActionController;
 use App\Http\Controllers\User\RetrieveActionController;
 use Illuminate\Http\Request;
@@ -26,6 +27,8 @@ Route::group(['middleware' => 'api'], function () {
         Route::get('/user', UserActionController::class);
         // 認証ユーザーの詳細取得
         Route::get('/users/me', RetrieveActionController::class);
+        // ログアウト（アクセストークン無効化）
+        Route::post('/users/logout', LogoutActionController::class);
     });
 
     Route::get('/products', [ProductController::class, 'index']);
