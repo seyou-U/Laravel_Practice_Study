@@ -7,7 +7,6 @@ use App\Http\Controllers\UserActionController;
 use App\Http\Controllers\User\LogoutActionController;
 use App\Http\Controllers\User\LoginActionController;
 use App\Http\Controllers\User\RetrieveActionController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('api')->group(function () {
