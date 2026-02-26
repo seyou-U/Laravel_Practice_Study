@@ -63,6 +63,19 @@ services:
             - '6379:6379'
         networks:
             - sail
+    horizon:
+        image: sail-8.4/app
+        depends_on:
+            - mysql
+            - redis
+        volumes:
+            - './:/var/www/html'
+        networks:
+            - sail
+        command: php artisan horizon
+        environment:
+            WWWUSER: '${WWWUSER}'
+            LARAVEL_SAIL: 1
 networks:
     sail:
         driver: bridge
