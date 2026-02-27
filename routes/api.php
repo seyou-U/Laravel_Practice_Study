@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Actions\PublisherAction;
+use App\Http\Controllers\AsyncJobController;
 use App\Http\Controllers\MemoController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserActionController;
@@ -42,6 +43,8 @@ Route::middleware('api')->group(function () {
         // ログアウト（アクセストークン無効化）
         Route::post('/users/logout', LogoutActionController::class);
 
+        Route::post('/memos/export',[MemoController::class, 'export']);
         Route::apiResource('memos', MemoController::class);
+        Route::get('/jobs/{asyncJob}', [AsyncJobController::class, 'show']);
     });
 });

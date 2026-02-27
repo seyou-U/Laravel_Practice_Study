@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreMemoRequest;
+use App\Jobs\ExportMemosPdfJob;
+use App\Models\AsyncJob;
 use App\Models\Memo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Str;
 
 class MemoController extends Controller
 {
@@ -34,10 +37,10 @@ class MemoController extends Controller
     public function store(StoreMemoRequest $request)
     {
         logger()->info('MemoController@store called', [
-        'auth_user_id' => optional($request->user())->id,
-        'validated' => $request->validated(),
-        'all' => $request->all(),
-    ]);
+            'auth_user_id' => optional($request->user())->id,
+            'validated' => $request->validated(),
+            'all' => $request->all(),
+        ]);
         $validated = $request->validated();
         $memo = Memo::create([
             ...$validated,
@@ -96,5 +99,27 @@ class MemoController extends Controller
         $memo->delete();
 
         return response()->noContent(); // 204
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function export(Request $request)
+    {
+        $userId = $request->user()->id;
+
+        $asyncJob = AsyncJob::create([
+            'id' => (string) Str::uuid(),
+            'user_id' => $userId,
+            'type' => 'memos_export',
+            'status' => 'queued',
+        ]);
+
+        ExportMemosPdfJob::dispatch($asyncJob, $userId);
+
+        return response()->json([
+            'jobId' => $asyncJob->id,
+            'status' => $asyncJob->status,
+        ], 202);
     }
 }
