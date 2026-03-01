@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\MemoCreated;
 use App\Http\Requests\StoreMemoRequest;
 use App\Jobs\ExportMemosPdfJob;
 use App\Models\AsyncJob;
@@ -46,6 +47,8 @@ class MemoController extends Controller
             ...$validated,
             'user_id' => $request->user()->id,
         ]);
+
+        event(new MemoCreated($memo));
 
         return response()->json($memo, 201);
     }

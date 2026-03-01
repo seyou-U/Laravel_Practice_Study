@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
+use Throwable;
 
 class Memo extends Model
 {
@@ -68,7 +69,14 @@ class Memo extends Model
     protected static function booted(): void
     {
         $flushUserCaches = function (int $userId) {
-            Cache::tags(["memos:user:{$userId}"])->flush();
+            try {
+                Cache::tags(["memos:user:{$userId}"])->flush();
+            } catch (Throwable $e) {
+                logger()->warning('Cache tag flush failed', [
+                    'user_id' => $userId,
+                    'error' => $e->getMessage(),
+                ]);
+            }
         };
 
         static::created(function (Memo $memo) use ($flushUserCaches) {
