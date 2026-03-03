@@ -8,6 +8,7 @@
         "php": "^8.2",
         "askdkc/breezejp": "^1.8",
         "barryvdh/laravel-debugbar": "^3.14",
+        "darkaonline/l5-swagger": "^10.1",
         "knplabs/knp-snappy": "^1.5",
         "laravel/framework": "^11.9",
         "laravel/horizon": "^5.45",
