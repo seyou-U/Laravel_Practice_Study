@@ -28,12 +28,12 @@ return [
                 /*
                  * File name of the generated json documentation file
                  */
-                'docs_json' => 'api-docs.json',
+                'docs_json' => 'openapi.json',
 
                 /*
                  * File name of the generated YAML documentation file
                  */
-                'docs_yaml' => 'api-docs.yaml',
+                'docs_yaml' => 'openapi.yaml',
 
                 /*
                  * Set this to `json` or `yaml` to determine which documentation file to use in UI
@@ -44,7 +44,7 @@ return [
                  * Absolute paths to directory containing the swagger annotations are stored.
                  */
                 'annotations' => [
-                    base_path('app'),
+                    // base_path('app'),
                 ],
             ],
         ],
@@ -237,8 +237,8 @@ return [
          * Set this to `true` in development mode so that docs would be regenerated on each request
          * Set this to `false` to disable swagger generation on production
          */
-        'generate_always' => env('L5_SWAGGER_GENERATE_ALWAYS', false),
-
+        // 'generate_always' => env('L5_SWAGGER_GENERATE_ALWAYS', false),
+        'generate_always' => false,
         /*
          * Set this to `true` to generate a copy of documentation in yaml format
          */
