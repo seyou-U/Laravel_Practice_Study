@@ -2,6 +2,7 @@
 
 use App\Http\Actions\PublisherAction;
 use App\Http\Controllers\AsyncJobController;
+use App\Http\Controllers\HealthController;
 use App\Http\Controllers\MemoController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserActionController;
@@ -16,6 +17,7 @@ Route::middleware('api')->group(function () {
     Route::post('/publishers', [PublisherAction::class, 'create']);
     Route::get('/products', [ProductController::class, 'index']);
     Route::post('/products', [ProductController::class, 'store']);
+    Route::get('/health', HealthController::class);
 
     // アクセストークンを用いて、認証ユーザーの情報を取得する
     // Route::post('/users/', RetrieveActionController::class)
