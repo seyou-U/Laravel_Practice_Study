@@ -19,12 +19,14 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        User::firstOrCreate([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-            'phone' => '080-0000-0000',
-            'password' => Hash::make('password'),
-        ]);
+        $user = User::firstOrCreate(
+            ['email' => 'test@example.com'],
+            [
+                'name' => 'Test User',
+                'phone' => '080-0000-0000',
+                'password' => Hash::make('password'),
+            ]
+        );
 
         // seederクラスはcallメソッドを用いて呼び出す
         $this->call(AuthorsTableSeeder::class);
@@ -39,7 +41,7 @@ class DatabaseSeeder extends Seeder
         // );
 
         // 10件以上でページが切り替わるページネーションについて動作確認するためにダミーデータを10件作成する
-        Memo::factory()->count(10)->create(['user_id' => 1]);
+        Memo::factory()->count(10)->create(['user_id' => $user->id]);
 
         $this->call(ProductSeeder::class);
     }
