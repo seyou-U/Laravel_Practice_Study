@@ -1,0 +1,141 @@
+openapi: 3.0.3
+info:
+  title: OpenAPI (Swagger) ドキュメント
+  version: 1.0.0
+servers:
+  - url: http://localhost/api
+    description: 開発環境
+
+tags:
+  - name: memo
+    description: メモ管理API
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: Token
+
+  responses:
+    Unauthorized:
+      description: 未認証
+    Forbidden:
+      description: 権限不足
+    NotFound:
+      description: リソースが見つからない
+    ValidationError:
+      description: バリデーションエラー
+
+paths:
+  /memos:
+    get:
+      tags: [memo]
+      summary: メモ一覧取得
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: OK
+    post:
+      tags: [memo]
+      summary: メモ登録
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [title, content]
+              properties:
+                title:
+                  type: string
+                  maxLength: 50
+                content:
+                  type: string
+                  maxLength: 255
+      responses:
+        '201':
+          description: Created
+
+  /memos/{memo}:
+    get:
+      tags: [memo]
+      summary: メモ情報取得
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: memo
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+    put:
+      tags: [memo]
+      summary: メモ情報更新
+      security:
+          - bearerAuth: []
+      parameters:
+        - name: memo
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [title, content]
+              properties:
+                title:
+                  type: string
+                  maxLength: 50
+                content:
+                  type: string
+                  maxLength: 255
+      responses:
+        '200':
+          description: OK
+    delete:
+      tags: [memo]
+      summary: メモ削除
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: memo
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: No Content
+
+  /memos/export:
+    post:
+      tags: [memo]
+      summary: メモエクスポート開始
+      security:
+        - bearerAuth: []
+      responses:
+        '202':
+          description: Accepted
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [jobId, status]
+                properties:
+                  jobId:
+                    type: string
+                    format: uuid
+                  status:
+                    type: string
+                    example: queued
