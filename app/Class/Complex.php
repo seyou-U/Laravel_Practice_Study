@@ -8,6 +8,7 @@ use Psr\Log\LoggerInterface;
 class Complex
 {
     protected $logger;
+
     protected $characterLogged;
 
     public function __construct(LoggerInterface $logger, $characterLogged)

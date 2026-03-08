@@ -10,11 +10,12 @@ use phpseclib3\Crypt\Blowfish;
 class BlowfishEncrypter implements EncrypterContract
 {
     protected $encrypter;
+
     protected $key;
 
     /**
      * コンストラクタ
-     * @param string $key
+     *
      * @return void
      */
     public function __construct(string $key)
@@ -29,7 +30,6 @@ class BlowfishEncrypter implements EncrypterContract
      *
      * @param  mixed  $value
      * @param  bool  $serialize
-     * @return string
      */
     public function encrypt($value, $serialize = true): string
     {
@@ -41,7 +41,6 @@ class BlowfishEncrypter implements EncrypterContract
      *
      * @param  string  $payload
      * @param  bool  $unserialize
-     * @return mixed
      */
     public function decrypt($payload, $unserialize = true): mixed
     {
@@ -50,8 +49,6 @@ class BlowfishEncrypter implements EncrypterContract
 
     /**
      * Get the encryption key that the encrypter is currently using.
-     *
-     * @return string
      */
     public function getKey(): string
     {
@@ -60,17 +57,17 @@ class BlowfishEncrypter implements EncrypterContract
 
     /**
      * interfaceで定義されているため記述
-     *
      */
-    public function getAllKeys(){
+    public function getAllKeys()
+    {
         //
     }
 
     /**
      * interfaceで定義されているため記述
-     *
      */
-    public function getPreviousKeys(){
+    public function getPreviousKeys()
+    {
         //
     }
 }

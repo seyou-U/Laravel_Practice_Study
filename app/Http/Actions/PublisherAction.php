@@ -21,7 +21,8 @@ class PublisherAction
         }
 
         $id = $this->publisher->store($request->name, $request->address);
+
         return response('新規登録完了', 201)
-            ->header('Location', '/api/publishers/' . $id);
+            ->header('Location', '/api/publishers/'.$id);
     }
 }

@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     // Dispatcherクラス経由でEventを実行する場合
     Event::dispatch(new PublishProcessor(1));
+
     return view('welcome');
 });
 
@@ -34,14 +35,14 @@ Route::middleware('guest')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
-        // Route::post('people', [RegisterController::class, 'store']);
+    // Route::post('people', [RegisterController::class, 'store']);
 });
 
 Route::resource('users', UserController::class)
-->only([
-    'index', 'show', 'store'
-])
-->middleware('admin');
+    ->only([
+        'index', 'show', 'store',
+    ])
+    ->middleware('admin');
 
 // ADRパターンのルーティング定義
 // Route::get('users', UserIndexAction::class);
@@ -52,7 +53,6 @@ Route::get('stream', StreamAction::class);
 
 // HALを適応したJSONを返却する
 Route::get('/payload', ArticlepayloadAction::class);
-
 
 //  コントローラーのクラスのみを指定した場合、AddTaskActionの__invokeメソッドを実行する
 // Route::post('/tasks', 'AddTaskAction::class');

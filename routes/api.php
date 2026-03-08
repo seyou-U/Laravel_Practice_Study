@@ -5,10 +5,10 @@ use App\Http\Controllers\AsyncJobController;
 use App\Http\Controllers\HealthController;
 use App\Http\Controllers\MemoController;
 use App\Http\Controllers\ProductController;
-use App\Http\Controllers\UserActionController;
-use App\Http\Controllers\User\LogoutActionController;
 use App\Http\Controllers\User\LoginActionController;
+use App\Http\Controllers\User\LogoutActionController;
 use App\Http\Controllers\User\RetrieveActionController;
+use App\Http\Controllers\UserActionController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('api')->group(function () {
@@ -37,7 +37,7 @@ Route::middleware('api')->group(function () {
     });
 
     // --- 認証必須 ---
-    Route::middleware('auth:sanctum')->group(function(){
+    Route::middleware('auth:sanctum')->group(function () {
         // 認証ユーザー情報
         Route::get('/user', UserActionController::class);
         // 認証ユーザーの詳細取得
@@ -45,7 +45,7 @@ Route::middleware('api')->group(function () {
         // ログアウト（アクセストークン無効化）
         Route::post('/users/logout', LogoutActionController::class);
 
-        Route::post('/memos/export',[MemoController::class, 'export']);
+        Route::post('/memos/export', [MemoController::class, 'export']);
         Route::apiResource('memos', MemoController::class);
         Route::get('/jobs/{asyncJob}', [AsyncJobController::class, 'show']);
     });

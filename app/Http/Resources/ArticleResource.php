@@ -37,8 +37,8 @@ class ArticleResource extends JsonResource
                     'href' => sprintf(
                         'https://example.com/articles/%s',
                         $this->resource['id']
-                    )
-                ]
+                    ),
+                ],
             ],
         ];
     }

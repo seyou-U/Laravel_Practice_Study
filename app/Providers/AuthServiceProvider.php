@@ -63,7 +63,7 @@ class AuthServiceProvider extends ServiceProvider
             function (Application $app, array $config) {
                 // UserTokenクラスはDatabaseManagerクラスが使われている。
                 // DatabaseManagerクラスはサービスコンテナでdbの名前で登録されている
-                return new UserTokenProvider(new UserToken($app->make('db'))                );
+                return new UserTokenProvider(new UserToken($app->make('db')));
             }
         );
 
@@ -88,6 +88,7 @@ class AuthServiceProvider extends ServiceProvider
             }
 
             $logger->info($ability, ['user_id' => $user->getAuthIdentifier()]);
+
             return null;
         });
     }

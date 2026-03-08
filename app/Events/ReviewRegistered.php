@@ -3,11 +3,8 @@
 namespace App\Events;
 
 use DateTime;
-use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
@@ -16,10 +13,15 @@ final class ReviewRegistered
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     private $id;
+
     private $title;
+
     private $content;
+
     private $userId;
+
     private $createdAt;
+
     private $tags = [];
 
     /**
@@ -32,8 +34,7 @@ final class ReviewRegistered
         int $userId,
         string $createdAt,
         array $tags
-    )
-    {
+    ) {
         $this->id = $id;
         $this->title = $title;
         $this->content = $content;
@@ -51,7 +52,6 @@ final class ReviewRegistered
     {
         return $this->content;
     }
-
 
     public function getId(): int
     {
@@ -71,9 +71,9 @@ final class ReviewRegistered
     public function getCreatedAtEpoch(): string
     {
         $datetime = new DateTime($this->createdAt);
+
         return $datetime->format('U');
     }
-
 
     /**
      * Get the channels the event should broadcast on.

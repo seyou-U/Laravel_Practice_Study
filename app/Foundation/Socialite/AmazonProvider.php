@@ -9,14 +9,11 @@ use Laravel\Socialite\Two\User;
 final class AmazonProvider extends AbstractProvider implements ProviderInterface
 {
     protected $scopes = [
-        'profile'
+        'profile',
     ];
 
     /**
      * OAuth認証を提供しているサービスの認証URLを文字列で記述
-     *
-     * @param $state
-     * @return string
      */
     protected function getAuthUrl($state): string
     {
@@ -35,9 +32,6 @@ final class AmazonProvider extends AbstractProvider implements ProviderInterface
 
     /**
      * 取得したトークンを利用して、ユーザー情報を取得する
-     *
-     * @param $token
-     * @return array
      */
     protected function getUserByToken($token): array
     {
@@ -45,20 +39,18 @@ final class AmazonProvider extends AbstractProvider implements ProviderInterface
             ->get('https://api.amazon.com/user/profile', [
                 'headers' => [
                     'x-amz-access-token' => $token,
-                ]
+                ],
             ]);
+
         return json_decode(strval($response->getBody()), true);
     }
 
     /**
      * getUserByTokenメソッドで取得した配列をUserインスタンスに変換する
-     *
-     * @param array $user
-     * @return User
      */
     protected function mapUserToObject(array $user): User
     {
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id' => $user['user_id'],
             'nickname' => $user['name'],
             'name' => $user['name'],
@@ -69,17 +61,11 @@ final class AmazonProvider extends AbstractProvider implements ProviderInterface
 
     /**
      * POSTフィールドに対し、grant_typeを追加する
-     *
-     * @param $code
-     * @return array
      */
     protected function getTokenFields($code): array
     {
         return parent::getTokenFields($code) + [
-            'grant_type' => 'authorization_code'
+            'grant_type' => 'authorization_code',
         ];
     }
-
-
-
 }

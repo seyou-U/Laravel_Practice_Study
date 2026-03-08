@@ -7,9 +7,13 @@ use Illuminate\Contracts\Auth\Authenticatable;
 class User implements Authenticatable
 {
     private $id;
+
     private $apiToken;
+
     private $name;
+
     private $email;
+
     private $password;
 
     public function __construct(
@@ -51,23 +55,17 @@ class User implements Authenticatable
         return $this->password;
     }
 
-    public function getRememberToken():string
+    public function getRememberToken(): string
     {
         return '';
     }
 
-    public function setRememberToken($value)
-    {
-
-    }
+    public function setRememberToken($value) {}
 
     public function getRememberTokenName()
     {
         return '';
     }
 
-    public function getAuthPasswordName()
-    {
-
-    }
+    public function getAuthPasswordName() {}
 }

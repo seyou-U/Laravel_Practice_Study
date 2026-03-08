@@ -9,6 +9,7 @@ use stdClass;
 final class UserToken implements UserTokenProviderInterface
 {
     private $manager;
+
     private $table = 'user_tokens';
 
     /**
@@ -21,8 +22,6 @@ final class UserToken implements UserTokenProviderInterface
 
     /**
      * tokenからユーザー情報を検索する処理
-     * @param string $token
-     * @return stdClass|null
      */
     public function retrieveUserByToken(string $token): ?stdClass
     {

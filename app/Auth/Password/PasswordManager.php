@@ -20,8 +20,6 @@ class PasswordManager extends PasswordBrokerManager
     }
 
     /**
-     *
-     * @param  array  $config
      * @return CustomTokenRepository
      */
     public function createTokenRepository(array $config)

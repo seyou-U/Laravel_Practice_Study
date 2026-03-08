@@ -15,6 +15,7 @@ final class HeaderDumper
     {
         $this->logger = $logger;
     }
+
     /**
      * リクエストヘッダをログに書き起こす
      *
@@ -27,7 +28,7 @@ final class HeaderDumper
         $this->logger->info(
             'request',
             [
-                'header' => strval($request->headers)
+                'header' => strval($request->headers),
             ]
         );
 

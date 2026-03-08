@@ -3,6 +3,7 @@
 namespace App\Gate;
 
 use App\Models\User;
+
 use function intval;
 
 // 1つの認可処理を1つのクラスとして表現する場合

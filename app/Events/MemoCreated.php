@@ -19,16 +19,14 @@ class MemoCreated implements ShouldBroadcast
 
     /**
      * 公開チャンネルの指定
-     * @return Channel
      */
-    public function broadcastOn():Channel
+    public function broadcastOn(): Channel
     {
         return new Channel('memos');
     }
 
     /**
      * イベント名の指定
-     * @return string
      */
     public function broadcastAs(): string
     {
@@ -37,7 +35,6 @@ class MemoCreated implements ShouldBroadcast
 
     /**
      * フロントに渡すデータの指定
-     * @return array
      */
     public function broadcastWith(): array
     {
@@ -46,5 +43,4 @@ class MemoCreated implements ShouldBroadcast
             'title' => $this->memo->title,
         ];
     }
-
 }

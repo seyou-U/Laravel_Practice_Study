@@ -6,7 +6,9 @@ namespace App\Domain\Entity;
 class Publisher
 {
     protected $id;
+
     protected $name;
+
     protected $address;
 
     public function __construct(?int $id, string $name, string $address)
@@ -16,12 +18,12 @@ class Publisher
         $this->address = $address;
     }
 
-    public function getName(): String
+    public function getName(): string
     {
         return $this->name;
     }
 
-    public function getAddress(): String
+    public function getAddress(): string
     {
         return $this->address;
     }

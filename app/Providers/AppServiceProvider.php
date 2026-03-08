@@ -10,30 +10,29 @@ use App\Events\MemoUpdated;
 use App\Events\PublishProcessor;
 use App\Events\ReviewRegistered;
 use App\Foundation\ViewComposer\PolicyComposer;
-use App\Listeners\RegisteredListener;
-use App\Services\AdminService;
-use App\Services\UserService;
 use App\Interfaces\NotifierInterface;
 use App\Interfaces\PublisherRepositoryInterface;
 use App\Interfaces\RegisterReviewProviderInterface;
 use App\Interfaces\UserRepositoryInterface;
 use App\Listeners\MessageQueueSubscriber;
 use App\Listeners\MessageSubscriber;
+use App\Listeners\RegisteredListener;
 use App\Listeners\ReviewIndexCreator;
 use App\Listeners\WriteMemoUpdatedLog;
-use App\Models\Memo;
 use App\Models\User;
 use App\Observers\UserObserver;
 use App\Repository\PublisherRepository;
 use App\Repository\UserRepository;
+use App\Services\AdminService;
+use App\Services\UserService;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Encryption\MissingAppKeyException;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
-use Monolog\Logger;
 use Illuminate\Support\Str;
 use Illuminate\View\Factory;
 use Knp\Snappy\Pdf;
+use Monolog\Logger;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -42,11 +41,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //インスタンス生成時に他のクラスを利用する必要がある場合はここにバインド処理
-        app()->bind(Complex::class, function(Application $app) {
+        // インスタンス生成時に他のクラスを利用する必要がある場合はここにバインド処理
+        app()->bind(Complex::class, function (Application $app) {
             // Loggerクラスのインスタンス生成のため文字列を渡す
             $logger = $app->make(Logger::class, ['name' => '複雑なbindが成功しました']);
             $complex = new Complex($logger, $logger->getName());
+
             return $complex;
         });
 
@@ -72,8 +72,8 @@ class AppServiceProvider extends ServiceProvider
         // );
 
         // 口コミ登録クラスの依存関係を定義する
-        $this->app->bind(RegisterReviewProviderInterface::class, function() {
-            return new RegisterReviewDataProvider();
+        $this->app->bind(RegisterReviewProviderInterface::class, function () {
+            return new RegisterReviewDataProvider;
         });
 
         $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
@@ -104,27 +104,27 @@ class AppServiceProvider extends ServiceProvider
             ]
         );
 
-        Event::listen(MemoUpdated::class,WriteMemoUpdatedLog::class);
+        Event::listen(MemoUpdated::class, WriteMemoUpdatedLog::class);
 
         // 通常はここにバインド処理を記述
         // インターフェイス通常のバインド例
-        app()->bind(NotifierInterface::class, function() {
-            return new MailSender();
+        app()->bind(NotifierInterface::class, function () {
+            return new MailSender;
         });
 
         // 呼び出すクラスに応じて異なるインスタンスを取得することができる
         // 下記では、UserServiceクラスでNotifierInterfaceクラスインスタンスを生成した場合、PushSenderクラスのインスタンスが返却される
         app()->when(UserService::class)
             ->needs(NotifierInterface::class)
-            ->give(function() {
-                return new PushSender();
+            ->give(function () {
+                return new PushSender;
             });
 
         // AdminクラスでNotifierInterfaceクラスインスタンスを生成した場合、MailSenderクラスのインスタンスが返却される
         app()->when(AdminService::class)
             ->needs(NotifierInterface::class)
-            ->give(function() {
-                return new MailSender();
+            ->give(function () {
+                return new MailSender;
             });
 
         // composerの第一引数にはテンプレート名を記述する
@@ -151,7 +151,7 @@ class AppServiceProvider extends ServiceProvider
             $config['key'],
             function ($key) {
                 if (empty($key)) {
-                    throw new MissingAppKeyException();
+                    throw new MissingAppKeyException;
                 }
             }
         );

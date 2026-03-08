@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 class BookDataAccessObject
 {
     protected $db;
+
     protected $table = 'books';
 
     /**
@@ -22,7 +23,7 @@ class BookDataAccessObject
     /**
      * クエリビルダやEloquentを用いることなく直接SQLを記述しデータを取得する
      */
-    public function dataExtractionUsingSQL(): Array
+    public function dataExtractionUsingSQL(): array
     {
         $sql = $this->commonlyUsedSql();
 
@@ -35,7 +36,7 @@ class BookDataAccessObject
     /**
      * PDOを記述し、データを取得する
      */
-    public function dataExtractionUsingPdo(): Array
+    public function dataExtractionUsingPdo(): array
     {
         $sql = $this->commonlyUsedSql();
         $pdo = DB::connection()->getPdo();
@@ -51,12 +52,12 @@ class BookDataAccessObject
     /**
      * 素のSQLおよびPDOを用いた実装で呼び出される共通のSQL
      */
-    public function commonlyUsedSql(): String
+    public function commonlyUsedSql(): string
     {
         return 'SELECT bookdetails.isbn, books.name '
-        . 'FROM books '
-        . 'LEFT JOIN bookdetails ON books.id = bookdetails.book_id '
-        . 'WHERE bookdetails.price >= ? AND bookdetails.published_date >= ? '
-        . 'ORDER BY bookdetails.published_date DESC';
+        .'FROM books '
+        .'LEFT JOIN bookdetails ON books.id = bookdetails.book_id '
+        .'WHERE bookdetails.price >= ? AND bookdetails.published_date >= ? '
+        .'ORDER BY bookdetails.published_date DESC';
     }
 }

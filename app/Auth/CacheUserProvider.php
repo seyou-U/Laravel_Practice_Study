@@ -10,15 +10,15 @@ use Illuminate\Contracts\Hashing\Hasher as HasherContract;
 class CacheUserProvider extends EloquentUserProvider
 {
     protected $cache;
+
     protected $lifetime;
-    protected $cacheKey = "authentication:user:%s";
+
+    protected $cacheKey = 'authentication:user:%s';
+
     /**
      * コンストラクタ
      *
-     * @param Hasher  $hasher
-     * @param string  $model
-     * @param CacheRepository $cache,
-     * @param int  $lifetime
+     * @param  Hasher  $hasher
      * @return void
      */
     public function __construct(
@@ -36,7 +36,6 @@ class CacheUserProvider extends EloquentUserProvider
     /**
      * nullを返却する場合を除き指定する期間で値を保持し、キャッシュを削除するまでデータベースからアクセスが発生しないようにする
      *
-     * @param  mixed  $identifier
      * @return $result|null
      */
     public function retrieveById(mixed $identifier)
@@ -60,18 +59,18 @@ class CacheUserProvider extends EloquentUserProvider
     /**
      * Retrieve a user by their unique identifier and "remember me" token.
      *
-     * @param  mixed  $identifier
      * @param  string  $token
      * @return \Illuminate\Contracts\Auth\Authenticatable|null
      */
     public function retrieveByToken(mixed $identifier, #[\SensitiveParameter] $token)
     {
         $model = $this->createModel($identifier);
-        if (!$model) {
+        if (! $model) {
             return null;
         }
 
         $rememberToken = $model->getRememberToken();
+
         return $rememberToken && hash_equals($rememberToken, $token) ? $model : null;
     }
 }

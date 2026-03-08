@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Auth\AuthManager;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class UserActionController extends Controller

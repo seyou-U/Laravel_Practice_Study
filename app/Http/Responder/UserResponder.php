@@ -12,6 +12,7 @@ use Illuminate\Http\Response;
 class UserResponder
 {
     private $response;
+
     private $view;
 
     public function __construct(Response $response, ViewFactory $viewFactory)

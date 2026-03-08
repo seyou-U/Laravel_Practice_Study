@@ -9,8 +9,6 @@ class WriteMemoUpdatedLog
 {
     /**
      * メモが更新された際に、ログを残す
-     * @param MemoUpdated $event
-     * @return void
      */
     public function handle(MemoUpdated $event): void
     {
