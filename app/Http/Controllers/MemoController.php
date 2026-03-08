@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\MemoCreated;
+use App\Events\MemoUpdated;
 use App\Http\Requests\StoreMemoRequest;
 use App\Jobs\ExportMemosPdfJob;
 use App\Models\AsyncJob;
@@ -80,12 +81,29 @@ class MemoController extends Controller
     {
         abort_unless($memo->user_id === $request->user()->id, 403);
 
+        $before = [
+            'title' => $memo->title,
+            'content' => $memo->content,
+        ];
+
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'required|string',
         ]);
 
         $memo->update($validated);
+
+        $after = [
+            'title' => $memo->title,
+            'content' => $memo->content,
+        ];
+
+        event(new MemoUpdated(
+            memo: $memo,
+            user: $request->user(),
+            before: $before,
+            after: $after,
+        ));
 
         return response()->json($memo);
         // MemoResourceを使った記述

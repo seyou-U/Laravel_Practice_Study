@@ -6,6 +6,7 @@ use App\Class\Complex;
 use App\Class\MailSender;
 use App\Class\PushSender;
 use App\DataProvider\RegisterReviewDataProvider;
+use App\Events\MemoUpdated;
 use App\Events\PublishProcessor;
 use App\Events\ReviewRegistered;
 use App\Foundation\ViewComposer\PolicyComposer;
@@ -19,6 +20,8 @@ use App\Interfaces\UserRepositoryInterface;
 use App\Listeners\MessageQueueSubscriber;
 use App\Listeners\MessageSubscriber;
 use App\Listeners\ReviewIndexCreator;
+use App\Listeners\WriteMemoUpdatedLog;
+use App\Models\Memo;
 use App\Models\User;
 use App\Observers\UserObserver;
 use App\Repository\PublisherRepository;
@@ -100,6 +103,8 @@ class AppServiceProvider extends ServiceProvider
                 ReviewIndexCreator::class,
             ]
         );
+
+        Event::listen(MemoUpdated::class,WriteMemoUpdatedLog::class);
 
         // 通常はここにバインド処理を記述
         // インターフェイス通常のバインド例
