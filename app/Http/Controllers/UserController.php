@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UserRegisterRequest;
-use App\Models\User;
 use App\Services\UserPurchaseService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -28,7 +27,7 @@ class UserController extends Controller
 
     public function show(Request $request): View
     {
-        $result =  $this->service->retrievePurchase($request->get('id'));
+        $result = $this->service->retrievePurchase($request->get('id'));
 
         return view('user.show', compact('result'));
     }
@@ -51,7 +50,6 @@ class UserController extends Controller
         // $this->validate($request, $rules);
         // // ここにバリデーション通過後の処理
         // $name = $request->get('name');
-
 
         // バリデータクラスのインスタンスを取得する。直前の画面ではなく特定の画面に遷移させたい場合に使用する
         // $validate = Validator::make($inputs, $rules);

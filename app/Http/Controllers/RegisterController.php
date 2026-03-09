@@ -30,7 +30,7 @@ class RegisterController extends Controller
         $inputs = $request->all();
 
         // バリデーションルールに「ascii_alpha」を追加
-        Validator::extend('ascii_alpha', function($attribute, $value, $parameter) {
+        Validator::extend('ascii_alpha', function ($attribute, $value, $parameter) {
             // 半角アルファベットならtrue(バリデーションOK)
             return preg_match('/^[a-zA-Z]+$/', $value);
         });
@@ -51,13 +51,11 @@ class RegisterController extends Controller
             return redirect('create');
         }
 
-
         // $user = User::create([
         //     'name' => $request->name,
         //     'email' => $request->email,
         //     'password' => Hash::make($request->password),
         // ]);
-
 
         // リクエストの内容をファザードで記述する方法
         $user = User::create([
@@ -69,7 +67,6 @@ class RegisterController extends Controller
         // 特定の入力値のみを取得する場合は
         // $inputs = FacadesRequest::only(['name', 'age']);
         // $name = $inputs['name'];
-
 
         // Requestオブジェクト
         // アップロードのファイルを取得したい場合はfileメソッドを用いる

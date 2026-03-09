@@ -27,16 +27,18 @@ class PruneMemosCommand extends Command
      */
     public function handle()
     {
-        try{
+        try {
             $deleted = Memo::where('created_at', '<', now()->subDays(10))
                 ->delete();
             Log::info("10日よりも古いメモを{$deleted}削除しました");
+
             return self::SUCCESS;
         } catch (\Throwable $e) {
             Log::error('[batch:old-memos-prune] failed', [
                 'error' => $e->getMessage(),
             ]);
             $this->error('failed: '.$e->getMessage());
+
             return self::FAILURE;
         }
     }

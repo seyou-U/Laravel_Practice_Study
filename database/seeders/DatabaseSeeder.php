@@ -5,7 +5,6 @@ namespace Database\Seeders;
 use App\Models\Memo;
 use App\Models\Publisher;
 use App\Models\User;
-use Database\Factories\PublisherFactory;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;

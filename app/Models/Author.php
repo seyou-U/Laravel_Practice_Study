@@ -29,7 +29,7 @@ class Author extends Model
     // しかし、DBが冗長になるにつれfillableは追加しないといけないことを考慮すると、fillableよりもguardedを指定する方が良い
     protected $fillable = [
         'name',
-        'kana'
+        'kana',
     ];
 
     protected $guarded = [
@@ -41,7 +41,7 @@ class Author extends Model
     // Kanaカラムの値を半角カナに変換するアクセサ (データを取得する際に呼び出される処理)を定義
     public function getKanaAttribute(string $value): string
     {
-        return mb_convert_kana($value, "k");
+        return mb_convert_kana($value, 'k');
     }
 
     // Kanaカラムの値を半角カナに変換するミューテータ (データを登録する際に呼び出される処理) を定義

@@ -4,7 +4,6 @@ namespace App\Policies;
 
 use App\Models\Content;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 use Illuminate\Contracts\Auth\Authenticatable;
 use stdClass;
 

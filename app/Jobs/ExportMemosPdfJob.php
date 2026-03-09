@@ -4,12 +4,12 @@ namespace App\Jobs;
 
 use App\Models\AsyncJob;
 use App\Models\Memo;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Bus\Queueable;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Storage;
 
 class ExportMemosPdfJob implements ShouldQueue
 {
@@ -36,8 +36,8 @@ class ExportMemosPdfJob implements ShouldQueue
             ->get();
 
         $content = $memos
-                ->map(fn($m) => "{$m->title}\n{$m->content}\n---\n")
-                ->join("\n");
+            ->map(fn ($m) => "{$m->title}\n{$m->content}\n---\n")
+            ->join("\n");
 
         $path = "exports/memos_{$this->userId}_{$job->id}.txt";
         Storage::disk('public')->put($path, $content);
@@ -48,7 +48,7 @@ class ExportMemosPdfJob implements ShouldQueue
         ]);
     }
 
-    public function failed(\Throwable $e):void
+    public function failed(\Throwable $e): void
     {
         AsyncJob::whereKey($this->asyncJob->getKey())->update([
             'status' => 'failed',

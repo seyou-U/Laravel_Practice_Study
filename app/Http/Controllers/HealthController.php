@@ -21,7 +21,7 @@ final class HealthController extends Controller
                         new OA\Property(property: 'ok', type: 'boolean', example: true),
                     ]
                 )
-            )
+            ),
         ]
     )]
     public function __invoke(): JsonResponse

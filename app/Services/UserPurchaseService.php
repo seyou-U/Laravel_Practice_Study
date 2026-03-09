@@ -2,13 +2,12 @@
 
 namespace App\Services;
 
+use App\Interfaces\UserRepositoryInterface;
 use App\Models\Purchase;
 use App\Models\User;
-use App\Interfaces\UserRepositoryInterface;
 
 class UserPurchaseService
 {
-
     protected $userRepository;
 
     public function __construct(UserRepositoryInterface $userRepository)
@@ -19,13 +18,12 @@ class UserPurchaseService
     public function getUsers()
     {
         $users = $this->userRepository->all();
+
         return $users;
     }
 
     /**
-     *
      * レイヤードアーキテクチャに基づきServiceメソッド作成
-     *
      */
     public function retrievePurchase(int $userId)
     {
@@ -35,6 +33,7 @@ class UserPurchaseService
 
         // レポジトリ層を用いた時の実装
         $user = $this->userRepository->find($userId);
+
         // データベースから取得した値を用いた処理などについて記述する
         return $user;
     }

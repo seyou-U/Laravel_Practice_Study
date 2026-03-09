@@ -9,6 +9,7 @@ use Illuminate\View\View;
 final class PolicyComposer
 {
     private $gate;
+
     private $authManager;
 
     public function __construct(Gate $gate, AuthManager $authManager)
@@ -29,5 +30,4 @@ final class PolicyComposer
         }
         $view->getFactory()->inject('authorized', 'denied');
     }
-
 }

@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use Illuminate\Contracts\Hashing\Hasher;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\DatabaseManager;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;

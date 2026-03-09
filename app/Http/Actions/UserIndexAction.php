@@ -14,6 +14,7 @@ use Illuminate\Http\Response;
 final class UserIndexAction extends Controller
 {
     private $domain;
+
     private $userResponder;
 
     public function __construct(UserService $userService, UserResponder $userResponder)

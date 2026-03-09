@@ -17,7 +17,7 @@ final class StreamAction extends Controller
         return response()->stream(
             function () {
                 while (true) {
-                    echo 'data: ' . rand(1, 100) . "\n\n";
+                    echo 'data: '.rand(1, 100)."\n\n";
                     // 出力バッファの内容を送信する
                     ob_flush();
                     //

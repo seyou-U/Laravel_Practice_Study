@@ -2,7 +2,6 @@
 
 namespace App\Jobs;
 
-use Carbon\Traits\Serialization;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Foundation\Queue\Queueable;

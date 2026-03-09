@@ -5,7 +5,6 @@ namespace App\Providers;
 use App\Auth\Password\PasswordManager;
 use Illuminate\Auth\Passwords\PasswordResetServiceProvider;
 use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Support\ServiceProvider;
 
 // PasswordBrokerManagerをクラス継承したクラスをアプリケーション内で用いるためにサービスプロパイダをここで定義
 // → 本クラスをconfig/app.phpのprovidersキーに登録する必要あり

@@ -45,7 +45,7 @@ return [
         // apiは一時削除
         'sanctum' => [
             'driver' => 'sanctum',
-            'provider' => 'users'
+            'provider' => 'users',
         ],
         'jwt' => [
             // jwtドライバの追加

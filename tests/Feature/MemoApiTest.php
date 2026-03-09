@@ -2,10 +2,10 @@
 
 namespace Tests\Feature;
 
-use App\Models\User;
 use App\Models\Memo;
-use Laravel\Sanctum\Sanctum;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
 class MemoApiTest extends TestCase
@@ -21,7 +21,7 @@ class MemoApiTest extends TestCase
 
         $payload = [
             'title' => '旅行メモ',
-            'content' => '東京の回りかたをまとめる'
+            'content' => '東京の回りかたをまとめる',
         ];
 
         Sanctum::actingAs($user);
@@ -29,7 +29,7 @@ class MemoApiTest extends TestCase
         $response = $this->postJson('/api/memos', $payload);
 
         $response->assertStatus(201)
-                 ->assertJsonFragment(['title' => '【メモ】旅行メモ']);
+            ->assertJsonFragment(['title' => '【メモ】旅行メモ']);
 
         $this->assertDatabaseHas('memos', [
             'user_id' => $user->id,
@@ -45,7 +45,7 @@ class MemoApiTest extends TestCase
         $user = User::factory()->create();
 
         $payload = [
-            'content' => '東京の回りかたをまとめる'
+            'content' => '東京の回りかたをまとめる',
         ];
 
         Sanctum::actingAs($user);
@@ -53,7 +53,7 @@ class MemoApiTest extends TestCase
         $response = $this->postJson('/api/memos', $payload);
 
         $response->assertStatus(422)
-                 ->assertJsonValidationErrors(['title']);
+            ->assertJsonValidationErrors(['title']);
     }
 
     /**
@@ -63,7 +63,7 @@ class MemoApiTest extends TestCase
     {
         $payload = [
             'title' => '旅行メモ',
-            'content' => '東京の回りかたをまとめる'
+            'content' => '東京の回りかたをまとめる',
         ];
 
         $response = $this->postJson('/api/memos', $payload);
@@ -99,9 +99,9 @@ class MemoApiTest extends TestCase
         $response = $this->getJson('/api/memos');
 
         $response->assertStatus(200)
-                 ->assertJsonCount(2, 'data')
-                 ->assertJsonFragment(['title' => '【メモ】自分のメモA'])
-                 ->assertJsonFragment(['title' => '【メモ】自分のメモB'])
-                 ->assertJsonMissing(['title' => '【メモ】他人のメモ']);
+            ->assertJsonCount(2, 'data')
+            ->assertJsonFragment(['title' => '【メモ】自分のメモA'])
+            ->assertJsonFragment(['title' => '【メモ】自分のメモB'])
+            ->assertJsonMissing(['title' => '【メモ】他人のメモ']);
     }
 }

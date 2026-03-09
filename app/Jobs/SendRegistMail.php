@@ -2,13 +2,11 @@
 
 namespace App\Jobs;
 
-use Carbon\Traits\Serialization;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Knp\Snappy\Pdf;
 
 class SendRegistMail implements ShouldQueue
 {
@@ -31,7 +29,7 @@ class SendRegistMail implements ShouldQueue
     {
         // user->getAuthIdentifier()は、$this->idと言い換えることもできる
         $user = $this->eloquent->findOrFail($event->user->getAuthIdentifier());
-        $this->mailer->raw('会員登録が完了しました', function($message) use ($user) {
+        $this->mailer->raw('会員登録が完了しました', function ($message) use ($user) {
             $message->subject('会員登録メール')->to($user->email);
         });
     }

@@ -21,8 +21,8 @@ class UserResource extends JsonResource
                     'href' => sprintf(
                         'https://example.com/articles/%s',
                         $this->resource['user_id']
-                    )
-                ]
+                    ),
+                ],
             ],
         ];
     }

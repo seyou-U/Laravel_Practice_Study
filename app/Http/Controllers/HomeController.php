@@ -3,11 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Class\Complex;
-use App\Class\PushSender;
 use App\DataAccess\BookDataAccessObject;
 use App\Events\PublishProcessor;
 use App\Models\Author;
-use App\Interfaces\NotifierInterface;
 use App\Services\AdminService;
 use App\Services\UserService;
 use Illuminate\Foundation\Application;
@@ -95,7 +93,7 @@ class HomeController extends Controller
         // 指定のメールアドレスとログインしているユーザのメールアドレスが同じでかつ、指定したイベントに紐付くリスナーがある場合
         // イベントをキャンセルすることができる
         $loginUser = Auth::user();
-        if (!empty($loginUser)) {
+        if (! empty($loginUser)) {
             $CheckEmailMatches = Auth::user()->email == config('user.email');
             if ($CheckEmailMatches && \Event::hasListeners(PublishProcessor::class)) {
                 \Event::forget(PublishProcessor::class);

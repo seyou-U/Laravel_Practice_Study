@@ -24,11 +24,11 @@ class MemoController extends Controller
         $key = "memos:index:user:{$userId}:page:{$page}";
 
         $memos = Cache::tags(["memos:user:{$userId}"])
-            ->remember($key, now()->addMinutes(10), function() use ($userId, $page) {
+            ->remember($key, now()->addMinutes(10), function () use ($userId, $page) {
                 return Memo::where('user_id', $userId)
                     ->orderByDesc('updated_at')
                     ->paginate(10, ['*'], 'page', $page);
-        });
+            });
 
         return response()->json($memos);
     }
@@ -69,7 +69,7 @@ class MemoController extends Controller
         $key = "memos:show:user:{$userId}:memo:{$memo->id}";
 
         // fresh()は、最新のモデルの状態を返却するメソッド
-        $memo = Cache::remember($key, now()->addMinutes(5), fn() => $memo->fresh());
+        $memo = Cache::remember($key, now()->addMinutes(5), fn () => $memo->fresh());
 
         return response()->json($memo);
     }

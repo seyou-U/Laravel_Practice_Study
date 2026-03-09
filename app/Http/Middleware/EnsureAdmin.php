@@ -17,9 +17,10 @@ class EnsureAdmin
     {
         $user = $request->user();
 
-        if (!$user || !$user->is_admin) {
+        if (! $user || ! $user->is_admin) {
             abort(403, '管理者のみアクセスできます');
         }
+
         return $next($request);
     }
 }

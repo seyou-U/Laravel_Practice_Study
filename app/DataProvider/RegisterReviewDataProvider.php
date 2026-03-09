@@ -24,10 +24,12 @@ class RegisterReviewDataProvider implements RegisterReviewProviderInterface
                 $createdAt
             );
         }
+
         return $reviewId;
     }
 
-    protected function createReview (string $title, string $content, int $userId, string $createdAt): int {
+    protected function createReview(string $title, string $content, int $userId, string $createdAt): int
+    {
         $result = Review::firstOrCreate([
             'user_id' => $userId,
             'title' => $title,
@@ -39,7 +41,8 @@ class RegisterReviewDataProvider implements RegisterReviewProviderInterface
         return $result->id;
     }
 
-    protected function createReviewTag (int $reviewId, int $tagId, string $createdAt) {
+    protected function createReviewTag(int $reviewId, int $tagId, string $createdAt)
+    {
         ReviewTag::firstOrCreate([
             'tag_id' => $tagId,
             'review_id' => $reviewId,
@@ -48,7 +51,8 @@ class RegisterReviewDataProvider implements RegisterReviewProviderInterface
         ]);
     }
 
-    protected function createTag (string $name, string $createdAt): int {
+    protected function createTag(string $name, string $createdAt): int
+    {
         $result = Tag::firstOrCreate([
             'tag_name' => $name,
         ], [

@@ -23,7 +23,7 @@ final class ArticlepayloadAction extends Controller
                     'body' => 'awesome',
                     'user_id' => 133345,
                     'user_name' => 'Application Developer',
-                ]
+                ],
             ],
             'user_id' => 13255,
             'user_name' => 'User1',

@@ -16,11 +16,12 @@ class ContactController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'name'  => ['required', 'string', 'max:255'],
+            'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email'],
         ]);
 
         Mail::to($validated['email'])->send(new ContactCompleted($validated['name']));
+
         return back()->with('status', '送信しました');
     }
 }

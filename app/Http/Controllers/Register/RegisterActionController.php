@@ -13,7 +13,9 @@ use Laravel\Socialite\Contracts\Factory as SocialiteFactory;
 final class RegisterActionController extends Controller
 {
     private $provider;
+
     private $dispatcher;
+
     private $socialite;
 
     // データベース登録とEvent発火に伴うクラスのインスタンスが渡される
@@ -26,6 +28,7 @@ final class RegisterActionController extends Controller
         $this->dispatcher = $dispatcher;
         $this->socialite = $socialite;
     }
+
     public function __invoke(Request $request): RedirectResponse
     {
         // driverメソッドで外部サービスを指定する
@@ -36,6 +39,7 @@ final class RegisterActionController extends Controller
         // return $factory->driver('amazon')->redirect();
 
         $created = now()->toDateTimeString();
+
         return $this->socialite->driver($driver)->redirect();
     }
 }

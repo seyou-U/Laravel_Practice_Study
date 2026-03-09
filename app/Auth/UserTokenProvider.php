@@ -28,15 +28,12 @@ final class UserTokenProvider implements UserProvider
     }
 
     // APIアプリケーションで自動ログイン機能は利用できないため記述しない
-    public function updateRememberToken(Authenticatable $user, $token)
-    {
-
-    }
+    public function updateRememberToken(Authenticatable $user, $token) {}
 
     // ユーザー認証の際に最終的に通るメソッド
     public function retrieveByCredentials(array $credentials)
     {
-        if (!isset($credentials['api_token'])) {
+        if (! isset($credentials['api_token'])) {
             return null;
         }
 
@@ -61,13 +58,7 @@ final class UserTokenProvider implements UserProvider
         return false;
     }
 
-    public function retrieveByToken($identifier, $token)
-    {
+    public function retrieveByToken($identifier, $token) {}
 
-    }
-
-    public function rehashPasswordIfRequired(Authenticatable $user, array $credentials, bool $force = false)
-    {
-
-    }
+    public function rehashPasswordIfRequired(Authenticatable $user, array $credentials, bool $force = false) {}
 }

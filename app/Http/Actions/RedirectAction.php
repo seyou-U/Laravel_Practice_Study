@@ -22,8 +22,8 @@ final class RedirectAction extends Controller
 
         // リダイレクト時に様々な動作を行う
         $response = redirect('/')
-                ->withInput($request->all())
-                ->with('error', 'validation error');
+            ->withInput($request->all())
+            ->with('error', 'validation error');
 
         return $response;
     }

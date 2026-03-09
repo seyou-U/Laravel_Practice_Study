@@ -31,8 +31,8 @@ final class CallbackActionController extends Controller
                 'handler' => tap(
                     HandlerStack::create(),
                     function (HandlerStack $stack) use ($log) {
-                        $stack->push(Middleware::log($log, new MessageFormatter()));
-                    })
+                        $stack->push(Middleware::log($log, new MessageFormatter));
+                    }),
             ])
         )->user();
 

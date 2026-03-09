@@ -40,10 +40,10 @@ class Memo extends Model
     {
         return Attribute::make(
             // 取得時(Accessor) 取得時タイトルの前に[メモ]をつける
-            get: fn(?string $value) => $value === null ? null : "【メモ】{$value}",
+            get: fn (?string $value) => $value === null ? null : "【メモ】{$value}",
 
             // 保存時(Mutator) 保存時前後の空白を削除する
-            set: fn(?string $value) => $value === null ? null : trim($value),
+            set: fn (?string $value) => $value === null ? null : trim($value),
         );
     }
 
@@ -56,8 +56,7 @@ class Memo extends Model
     {
         // $attributeはDBから取得した生データ配列
         return Attribute::make(
-            get: fn($value, array $attribute) =>
-                Str::limit($attribute['content'] ?? '', 60, '...')
+            get: fn ($value, array $attribute) => Str::limit($attribute['content'] ?? '', 60, '...')
         );
     }
 
@@ -83,11 +82,11 @@ class Memo extends Model
             $flushUserCaches($memo->user_id);
         });
 
-        static::updated(function (Memo $memo) use ($flushUserCaches){
+        static::updated(function (Memo $memo) use ($flushUserCaches) {
             $flushUserCaches($memo->user_id);
         });
 
-        static::deleted(function (Memo $memo) use ($flushUserCaches){
+        static::deleted(function (Memo $memo) use ($flushUserCaches) {
             $flushUserCaches($memo->user_id);
         });
     }

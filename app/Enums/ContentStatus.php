@@ -11,10 +11,9 @@ enum ContentStatus: int
     public function label(): string
     {
         return match ($this) {
-            ContentStatus::DRAFT  => '下書き',
+            ContentStatus::DRAFT => '下書き',
             ContentStatus::PUBLISHED => '公開',
             ContentStatus::ARCHIVED => 'アーカイブ',
         };
     }
-
 }

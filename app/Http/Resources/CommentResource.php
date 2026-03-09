@@ -22,8 +22,8 @@ class CommentResource extends JsonResource
                     'href' => sprintf(
                         'https://example.com/articles/%s',
                         $this->resource['id']
-                    )
-                ]
+                    ),
+                ],
             ],
             '_embedded' => [
                 'user' => new UserResource(

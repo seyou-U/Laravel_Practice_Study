@@ -25,7 +25,7 @@ final class TextAction extends Controller
             // IlluminateResponse::HTTP_OKと同等
             200,
             [
-                'content-type' => 'text/plain'
+                'content-type' => 'text/plain',
             ]
         );
 

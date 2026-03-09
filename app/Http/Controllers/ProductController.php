@@ -16,7 +16,7 @@ class ProductController extends Controller
         $query = Product::query();
 
         if ($q !== '') {
-            $query->where('name', 'like', '%' . $q . '%');
+            $query->where('name', 'like', '%'.$q.'%');
         }
 
         if ($onlyInStock) {

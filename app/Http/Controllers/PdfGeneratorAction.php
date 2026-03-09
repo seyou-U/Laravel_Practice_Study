@@ -2,12 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Jobs\PdfGenerator;
-use Illuminate\Auth\AuthManager;
 use Illuminate\Contracts\Bus\Dispatcher;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 final class PdfGeneratorAction extends Controller
 {

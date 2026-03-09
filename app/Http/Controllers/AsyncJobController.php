@@ -17,7 +17,7 @@ class AsyncJobController extends Controller
             'status' => $asyncJob->status,
             'result_url' => $asyncJob->result_url,
             'error' => $asyncJob->error,
-            'updatedAt' => $asyncJob->updated_at
+            'updatedAt' => $asyncJob->updated_at,
         ]);
     }
 }
